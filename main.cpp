@@ -29,7 +29,6 @@ int ventanaMain(void){
             break;
             cout << "Funciona :D" << endl;
         }
-
         // Dibujar botón
         BeginDrawing();
         DrawRectangleRec(boton, BLACK);
