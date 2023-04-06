@@ -1,3 +1,6 @@
+/**
+ * Librerias externas utilizadas
+ */
 #include <iostream>
 #include <raylib.h>
 #include <math.h>
@@ -8,14 +11,26 @@
  * Facilitar prints
  */
 using namespace std;
+
+/**
+ * Se setean las distintas ventanas que se van a utilizar en el juego
+ */
 typedef enum GameScreen {INICIO, ESTRATEGIAS, GAMEPLAY, ENDING } GameScreen;
 
+/**
+ *
+ */
 typedef enum { FIRST = 0, SECOND, THIRD } Waves;
 
+/**
+ * Estructura utilizada para el jugador, se le da velocidad
+ */
 typedef struct Jugador {
     Vector2 velocidad;
 }Jugador;
-
+/**
+ * Estructura utilizada para los enemigos,
+ */
 typedef struct Enemigos {
     Image enemigos;
     Vector2 velocidad;
@@ -43,9 +58,18 @@ static int velocity = 5;
 static const char *nave = "/home/felipe/Proyecto1_Felipe_Jimenez-Carlos_Segura/imagenes/nave.png";
 static const char *naveDown = "/home/felipe/Proyecto1_Felipe_Jimenez-Carlos_Segura/imagenes/naveDown.png";
 static const char *naveUp = "/home/felipe/Proyecto1_Felipe_Jimenez-Carlos_Segura/imagenes/naveUp.png";
-static const int cantBalas = 100;
+static const int cantBalas = 1000;
+static int cantVidas = 3;
 static Jugador jugador1 = { 0 };
 static Disparos disparos[cantBalas] = { 0 };
+static string respuesta = "";
+static bool poderEsc = false;
+static bool poderCad = false;
+static bool poderVel = false;
+static bool poderVid = false;
+static bool actPod = false;
+
+
 
 /**
  * Clase nodo, utilizada para almacenar información
@@ -129,16 +153,11 @@ public:
      * Mostrar collector
      */
     void Mostrar() {
-        cout << "Se elimina ----> " << head <<endl;
         if (head == nullptr)
             cout << "No hay elementos en collector";
         else {
-            cout<< "Collector:   ";
             for (Nodo *temp = head; temp != nullptr; temp = temp->siguiente) {
-                cout << temp << " / ";
             }
-            cout << endl;
-            cout << endl;
         }
     }
     /**
@@ -263,28 +282,31 @@ public:
      */
 
     void EliminarDato(int data) {
-        if (data == cabeza->dato) {
-            Nodo *temp = cabeza;
-            cabeza = cabeza->siguiente;
-            botadero->InsertarInicioC(temp);
-            botadero->Mostrar();
-            tamaño--;
+        Encuentra(data);
+        if(respuesta == "si") {
+            if (data == cabeza->dato) {
+                Nodo *temp = cabeza;
+                cabeza = cabeza->siguiente;
+                botadero->InsertarInicioC(temp);
+                botadero->Mostrar();
+                tamaño--;
 
 
-        } else {
-            Nodo *buscador = cabeza;
-            Nodo *prev;
-            while (buscador->dato != data) {
-                prev = buscador;
-                buscador = buscador->siguiente;
+            } else {
+                Nodo *buscador = cabeza;
+                Nodo *prev;
+                while (buscador->dato != data) {
+                    prev = buscador;
+                    buscador = buscador->siguiente;
+                }
+
+                prev->siguiente = buscador->siguiente; // prev->nextPtr = prev->nextPtr->nextPtr;
+                botadero->InsertarInicioC(buscador);
+                botadero->Mostrar();
+                tamaño--;
             }
-
-            prev->siguiente = buscador->siguiente; // prev->nextPtr = prev->nextPtr->nextPtr;
-            botadero->InsertarInicioC(buscador);
-            botadero->Mostrar();
-            tamaño--;
+        } else{
         }
-
     }
     /**
      * Función para mostrar la lista enlazada actual
@@ -292,15 +314,37 @@ public:
     void MostrarLista() {
         Nodo *temp;
         if (cabeza == nullptr) {
-            cout << "No hay elementos en al lista " << endl;
         } else {
             temp = cabeza;
-            cout << "Lista :   " << endl;
             while (temp) {
-                cout <<  temp->dato << " -> " <<temp << endl;
                 temp = temp->siguiente;
             }
-            cout << endl;
+        }
+    }
+    void Encuentra(int data){
+        Nodo *temp;
+        if (cabeza == nullptr) {
+            respuesta = "no";
+        } else{
+            int f = 0;
+            temp = cabeza;
+            do {
+                if (temp->dato == data) {
+                    f = 1;
+                    respuesta = "si";
+                    break;
+                }
+                if(temp->siguiente == nullptr){
+                    break;
+                }
+                else{
+                    temp = temp->siguiente;
+                }
+
+            } while (temp != cabeza);
+            if (f == 0) {
+                respuesta = "no";
+            }
         }
     }
 };
@@ -312,7 +356,7 @@ static Collector *C = new Collector();
  */
 void juego(void){
     posJugx = 20;
-    posJugy = 50;
+    posJugy = 150;
     jugador1.velocidad.y = velocity;
     for(int i=0; i<cantBalas;i++){
         disparos[i].rec.x = 85;
@@ -325,25 +369,69 @@ void juego(void){
         disparos[i].active = false;
         l->InsertarFinal(i);
     }
-    l->EliminarDato(4);
-    l->MostrarLista();
 }
+/**
+ * Función la cual le da al jugador los límites de la pantalla, su cambio de sprites, la posibilidad de disparar a
+ * cierta cadencia, además de configurarla dependiendo de las teclas que presiona el jugador y tener cierta munición.
+ */
 
 void actJuego(void){
-    if(posJugy>5){
+    if(IsKeyPressed(KEY_A)) {
+        rate = 1 ;
+        cadencia = 0;
+    }
+
+    if(IsKeyPressed(KEY_S)) {
+        rate = 2;
+        cadencia = 0;
+    }
+
+    if(IsKeyPressed(KEY_D)) {
+        rate = 3;
+        cadencia = 0;
+    }
+
+    if(IsKeyPressed(KEY_F)) {
+        rate = 4;
+        cadencia = 0;
+    }
+    if(poderEsc && actPod){
+        nave = "/home/felipe/Proyecto1_Felipe_Jimenez-Carlos_Segura/imagenes/naveEsc.png";
+        naveDown = "/home/felipe/Proyecto1_Felipe_Jimenez-Carlos_Segura/imagenes/naveEscDown.png";
+        naveUp = "/home/felipe/Proyecto1_Felipe_Jimenez-Carlos_Segura/imagenes/naveEscUp.png";
+    }
+
+    if(poderCad && actPod){
+        nave = "/home/felipe/Proyecto1_Felipe_Jimenez-Carlos_Segura/imagenes/naveVel.png";
+        naveDown = "/home/felipe/Proyecto1_Felipe_Jimenez-Carlos_Segura/imagenes/naveDVel.png";
+        naveUp = "/home/felipe/Proyecto1_Felipe_Jimenez-Carlos_Segura/imagenes/naveUVel.png";
+        if(IsKeyPressed(KEY_G)){
+            rate = 6;
+            cadencia = 0;
+        }
+    }
+
+
+    if(poderVid && actPod){
+        nave = "/home/felipe/Proyecto1_Felipe_Jimenez-Carlos_Segura/imagenes/naveAlas.png";
+        naveDown = "/home/felipe/Proyecto1_Felipe_Jimenez-Carlos_Segura/imagenes/naveAlasD.png";
+        naveUp = "/home/felipe/Proyecto1_Felipe_Jimenez-Carlos_Segura/imagenes/naveAlasU.png";
+    }
+
+
+    if(posJugy>40){
         if (IsKeyDown(KEY_UP)) posJugy -= jugador1.velocidad.y;
         if (IsKeyDown(KEY_UP)) navecita = LoadTexture(naveUp);
         if (IsKeyReleased(KEY_UP)) navecita = LoadTexture(nave);
-        if(IsKeyDown(KEY_SPACE)){
-            cadencia += rate;
-            for(int i=0; i<cantBalas;i++){
-                if(!disparos[i].active && cadencia%20 == 0){
-                    disparos[i].rec.x = 85;
-                    disparos[i].rec.y = posJugy+30;
-                    disparos[i].active = true;
-                    break;
-                }
+        cadencia += rate;
+        for(int i=0; i<cantBalas;i++){
+            if(!disparos[i].active && cadencia %48 == 0){
+                disparos[i].rec.x = 85;
+                disparos[i].rec.y = posJugy+30;
+                disparos[i].active = true;
+                break;
             }
+
         }
     }
 
@@ -351,28 +439,34 @@ void actJuego(void){
         if(IsKeyDown(KEY_DOWN)) posJugy+= jugador1.velocidad.y;
         if (IsKeyDown(KEY_DOWN)) navecita = LoadTexture(naveDown);
         if (IsKeyReleased(KEY_DOWN)) navecita = LoadTexture(nave);
-        if(IsKeyDown(KEY_SPACE)){
-            cadencia += rate;
-            for(int i=0; i<cantBalas;i++){
-                if(!disparos[i].active && cadencia%20 == 0){
-                    disparos[i].rec.x = 85;
-                    disparos[i].rec.y = posJugy+30;
-                    disparos[i].active = true;
-                    break;
-                }
+        cadencia += rate;
+        for (int i = 0; i < cantBalas; i++) {
+            if (!disparos[i].active && cadencia %48 == 0) {
+                disparos[i].rec.x = 85;
+                disparos[i].rec.y = posJugy + 30;
+                disparos[i].active = true;
+                break;
             }
-        }
+
+    }
     }
     for(int i=0; i<cantBalas;i++){
-        if(disparos[i].active and disparos[i].rec.x<=800){
-            disparos[i].rec.x += disparos[i].balavel.x;
-            cout<<disparos[i].rec.x<<endl;
-            if(disparos[i].rec.x >= 800){
-                //l->EliminarDato(disparos[i].numero);
+        if(disparos[i].active){
+            if(disparos[i].rec.x<=800){
+                disparos[i].rec.x += disparos[i].balavel.x;
+            } else {
+                l->EliminarDato(i);
+                l->MostrarLista();
             }
+
         }
     }
 }
+/**
+ * Función llamada cada frame, para revisar el funcionamiento del jugador
+ */
+
+
 
 void actualizar(void){
     actJuego();
@@ -404,7 +498,10 @@ int main(){
     Rectangle strat3 = {385, 150, 150, 50 }; // Coordenadas y dimensiones del botón
     Rectangle strat4 = {565, 150, 150, 50 }; // Coordenadas y dimensiones del botón
 
+    Rectangle activarPoder = {450,5,150,30};
+
     navecita = LoadTexture(nave);
+    Texture2D icoVidas = LoadTexture("/home/felipe/Proyecto1_Felipe_Jimenez-Carlos_Segura/imagenes/vidas.png");
     Texture2D fondoI = LoadTexture("/home/felipe/Proyecto1_Felipe_Jimenez-Carlos_Segura/imagenes/fondo.png");
     Texture2D fondoS = LoadTexture("/home/felipe/Proyecto1_Felipe_Jimenez-Carlos_Segura/imagenes/fondostrat.png");
 
@@ -433,16 +530,14 @@ int main(){
             {
                 if (CheckCollisionPointRec(GetMousePosition(), strat1) && IsMouseButtonPressed(MOUSE_LEFT_BUTTON))
                 {
-                    nave = "/home/felipe/Proyecto1_Felipe_Jimenez-Carlos_Segura/imagenes/naveEsc.png";
-                    naveDown = "/home/felipe/Proyecto1_Felipe_Jimenez-Carlos_Segura/imagenes/naveEscDown.png";
-                    naveUp = "/home/felipe/Proyecto1_Felipe_Jimenez-Carlos_Segura/imagenes/naveEscUp.png";
+                    poderEsc = true;
                     currentScreen = GAMEPLAY;
                     juego();
                 }
                 if (CheckCollisionPointRec(GetMousePosition(), strat2) && IsMouseButtonPressed(MOUSE_LEFT_BUTTON))
                 {
                     currentScreen = GAMEPLAY;
-                    rate = 15;
+                    poderCad = true;
                     juego();
                 }
                 if (CheckCollisionPointRec(GetMousePosition(), strat3) && IsMouseButtonPressed(MOUSE_LEFT_BUTTON))
@@ -454,6 +549,8 @@ int main(){
                 if (CheckCollisionPointRec(GetMousePosition(), strat4) && IsMouseButtonPressed(MOUSE_LEFT_BUTTON))
                 {
                     currentScreen = GAMEPLAY;
+                    velocity = 10;
+                    poderVid = true;
                     juego();
                 }
             } break;
@@ -462,11 +559,15 @@ int main(){
                 // TODO: Update GAMEPLAY screen variables here!
 
                 actualizar();
-                // Press enter to change to ENDING screen
-                if (IsKeyPressed(KEY_ENTER) || IsGestureDetected(GESTURE_TAP))
-                {
-                    currentScreen = ENDING;
+                if (IsKeyPressed(KEY_Z)){
+                    actPod = true;
                 }
+
+                    // Press enter to change to ENDING screen
+                //if (IsKeyPressed(KEY_ENTER) || IsGestureDetected(GESTURE_TAP))
+                //{
+                //    currentScreen = ENDING;
+                //}
 
             } break;
             case ENDING:
@@ -526,11 +627,16 @@ int main(){
                 // TODO: Draw GAMEPLAY screen here!
                 DrawRectangle(0, 0, screenWidth, screenHeight, BLACK);
                 DrawTexture(navecita, posJugx, posJugy, RAYWHITE);
+                DrawTexture(icoVidas,10,5,RAYWHITE);
                 for(int i=0; i<cantBalas;i++){
                     if(disparos[i].active) DrawRectangleRec(disparos[i].rec, YELLOW);
                 }
+                DrawText("Para activar el poder presione [z]", activarPoder.x + 10, activarPoder.y + 5, 15, DARKGRAY);
+                DrawText("x", 50, 18, 20, GRAY);
+                DrawText(TextFormat("%02i", cantVidas), 65, 20, 20, GRAY);
+                DrawText("Wave", 310, 10, 30, GRAY);
+                DrawText(TextFormat("%01i", cantVidas), 400, 10, 30, GRAY);
 
-                DrawText("GAMEPLAY SCREEN", 20, 20, 40, MAROON);
             } break;
             case ENDING:
             {
