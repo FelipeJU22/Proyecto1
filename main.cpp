@@ -61,8 +61,8 @@ static const char *naveDown = "imagenes/naveDown.png";
 static const char *naveUp = "imagenes/naveUp.png";
 static int balasColl = 0;
 static int balasRec;
-static const int cantBalas1 = 20;
-static int balas1 = 20;
+static const int cantBalas1 = 200;
+static int balas1 = 200;
 static Disparos disparos1[cantBalas1] = {0 };
 static const int cantBalas2 = 250;
 static int balas2 = 250;
@@ -772,12 +772,45 @@ int main(){
     Texture2D icoMun = LoadTexture("imagenes/municion.png");
     Texture2D munRec = LoadTexture("imagenes/municionRoja.png");
 
+    ///////////////////////////////////////////////////////////////////////////////////
+
+    InitAudioDevice();  // Initialize audio device
+
+    // Load music file
+    Music music = LoadMusicStream("music/menu.mp3");
+    // Play music
+    PlayMusicStream(music);
+
+
+    Texture2D frames[24]; // Array de texturas para almacenar cada frame
+    int currentFrame = 0; // Indice del frame actual
+    float frameCounter = 0; // Contador para controlar la velocidad de la animacion
+    float frameSpeed = 0.07f; // Velocidad de la animacion (cuanto menor, mas rapida)
+
+    // Cargar los frames de la animacion
+    for (int i = 0; i < 24; i++)
+    {
+        char fileName[64];
+        printf("a");
+        sprintf(fileName, "gif/frame_%02d.png", i);
+        frames[i] = LoadTexture(fileName);
+
+    }
+////////////////////////////////////////////////////////////////
     SetTargetFPS(60);               // Set desired framerate (frames-per-second)
     //--------------------------------------------------------------------------------------
 
     // Main game loop
     while (!WindowShouldClose())    // Detect window close button or ESC key
     {
+        UpdateMusicStream(music);
+        frameCounter += GetFrameTime();
+        if (frameCounter >= frameSpeed)
+        {
+            frameCounter = 0;
+            currentFrame++;
+            if (currentFrame > 23) currentFrame = 0;
+        }
         // Update
         //----------------------------------------------------------------------------------
         switch(currentScreen)
@@ -806,12 +839,27 @@ int main(){
                 {
                     poderEsc = true;
                     currentScreen = GAMEPLAY;
+
+                    StopMusicStream(music);
+                    // Load new music file
+                    music = LoadMusicStream("music/gameplay.mp3");
+
+                    // Play new music
+                    PlayMusicStream(music);
+
                     juego();
                 }
                 if (CheckCollisionPointRec(GetMousePosition(), strat2) && IsMouseButtonPressed(MOUSE_LEFT_BUTTON))
                 {
                     currentScreen = GAMEPLAY;
                     poderCad = true;
+                    StopMusicStream(music);
+                    // Load new music file
+                    music = LoadMusicStream("music/gameplay.mp3");
+
+                    // Play new music
+                    PlayMusicStream(music);
+
                     juego();
                 }
                 if (CheckCollisionPointRec(GetMousePosition(), strat3) && IsMouseButtonPressed(MOUSE_LEFT_BUTTON))
@@ -823,6 +871,14 @@ int main(){
                     pugi::xml_node Poder = Poderes.child("Poder");
                     string Velocidad = Poder.child("Velocidad").text().get();
                     velocity = stoi(Velocidad);
+
+                    StopMusicStream(music);
+                    // Load new music file
+                    music = LoadMusicStream("music/gameplay.mp3");
+
+                    // Play new music
+                    PlayMusicStream(music);
+
                     juego();
                 }
                 if (CheckCollisionPointRec(GetMousePosition(), strat4) && IsMouseButtonPressed(MOUSE_LEFT_BUTTON))
@@ -835,6 +891,15 @@ int main(){
                     currentScreen = GAMEPLAY;
                     velocity = stoi(Velocidad);
                     poderVid = true;
+
+
+                    StopMusicStream(music);
+                    // Load new music file
+                    music = LoadMusicStream("music/gameplay.mp3");
+
+                    // Play new music
+                    PlayMusicStream(music);
+
                     juego();
                 }
             } break;
@@ -843,6 +908,7 @@ int main(){
                 // TODO: Update GAMEPLAY screen variables here!
 
                 actualizar();
+
                 if (IsKeyPressed(KEY_Z)){
                     actPod = true;
                 }
@@ -893,7 +959,7 @@ int main(){
             } break;
             case ESTRATEGIAS:
             {
-                // TODO: Draw INICIO screen here!
+                // TODO: Draw ESTRATEGIAS screen here!
                 DrawTexture(fondoS, 0, 0, RAYWHITE);
                 DrawRectangleRec(strat1, WHITE);
                 DrawText("Escudo", strat1.x + 37, strat1.y + 15, 20, BLACK);
@@ -909,7 +975,9 @@ int main(){
             {
                 // TODO: Draw GAMEPLAY screen here!
                 DrawRectangle(0,0,screenWidth,screenHeight,BLACK);
-                DrawTexture(fondoG, 0, 10, RAYWHITE);
+
+                DrawTexture(frames[currentFrame], 0, 0, RAYWHITE);
+//                DrawTexture(fondoG, 0, 10, RAYWHITE);
                 DrawTexture(navecita, posJugx, posJugy, RAYWHITE);
                 DrawTexture(icoVidas,10,5,RAYWHITE);
                 DrawTexture(icoMun, 630, 380, RAYWHITE);
@@ -987,6 +1055,16 @@ int main(){
     UnloadTexture(navecita);
     UnloadTexture(fondoI);
     UnloadTexture(fondoS);
+    StopMusicStream(music);
+    UnloadMusicStream(music);
+
+    // Liberar la memoria de las texturas
+    for (int i = 0; i < 24; i++)
+    {
+        UnloadTexture(frames[i]);
+    }
+
+    CloseWindow();
     CloseWindow();        // Close window and OpenGL context
     //--------------------------------------------------------------------------------------
 
