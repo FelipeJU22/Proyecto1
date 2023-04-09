@@ -13,12 +13,17 @@
  */
 using namespace std;
 
-#define oleada1 4
-#define oleada2 6
-#define oleada3 10
-#define oleada4 13
-#define oleada5 17
-#define enemigosMaximos 50
+#define oleada1 1
+#define oleada2 2
+#define oleada3 3
+#define oleada4 4
+#define oleada5 5
+#define oleada6 6
+#define oleada7 10
+#define oleada8 15
+#define oleada9 20
+#define oleada10 25
+#define enemigosMaximos 91
 
 
 /**
@@ -29,7 +34,7 @@ typedef enum GameScreen {INICIO, ESTRATEGIAS, GAMEPLAY, ENDING } GameScreen;
 /**
  *
  */
-typedef enum { FIRST = 0, SECOND, THIRD, FOURTH, FIFTH} EnemyWave;;
+typedef enum { FIRST = 0, SECOND, THIRD, FOURTH, FIFTH, SIXTH, SEVENTH, EIGHTH, NINETH,TENTH} EnemyWave;;
 
 /**
  * Estructura utilizada para el jugador, se le da velocidad
@@ -80,16 +85,16 @@ static int balasColl = 0;
 static int balasRec;
 static int oleada = 1;
 
-static const int cantBalas1 = 20;
-static int balas1 = 20;
+static const int cantBalas1 = 1000;
+static int balas1 = 1000;
 static Disparos disparos1[cantBalas1] = {0 };
 
-static const int cantBalas2 = 250;
-static int balas2 = 250;
+static const int cantBalas2 = 500;
+static int balas2 = 500;
 static Disparos disparos2[cantBalas2] = {0 };
 
-static const int cantBalas3 = 125;
-static int balas3 = 125;
+static const int cantBalas3 = 250;
+static int balas3 = 250;
 static Disparos disparos3[cantBalas3] = {0 };
 
 static Disparos recicladas[500] ={0};
@@ -108,7 +113,14 @@ static bool actPod = false;
 static int enemigosActivos = 0;
 static Enemigos enemigos[enemigosMaximos] ={0};
 static EnemyWave wave = {static_cast<EnemyWave>(0)};
+static Enemigos asteroides[30] = {0};
+static int velEne = 2;
 static int navesFuera = 0;
+static bool fase2 = false;
+static bool startFase2 = false;
+static int eliminaciones1 = 0;
+static int eliminaciones2 = 0;
+
 
 static const int screenWidth = 732;
 static const int screenHeight = 413;
@@ -403,10 +415,9 @@ public:
                 cabeza = cabeza->siguiente;
                 tamaño--;
                 cantVidas--;
-                navesFuera+=1;
+
             } else {
                 cantVidas--;
-                navesFuera+=1;
                 Nodo *buscador = cabeza;
                 Nodo *prev;
                 while (buscador->dato != data) {
@@ -492,13 +503,14 @@ public:
 };
 
 static Lista *l = new Lista();
-static Lista *R =new Lista();
+static Lista *R = new Lista();
 static Lista *E = new Lista();
-static Collector *C = new Collector();
+static Lista *A = new Lista();
 /**
  *
  */
 void juego(void){
+    enemigosActivos = oleada1;
     posJugx = 20;
     posJugy = 150;
     jugador1.velocidad.y = velocity;
@@ -553,14 +565,26 @@ void juego(void){
         R->InsertarFinal(i);
     }
     for(int i = 0; i < enemigosMaximos; i++){
-        enemigos[i].posEnex = GetRandomValue(screenWidth, screenWidth + 3000);
+        enemigos[i].posEnex = GetRandomValue(screenWidth, screenWidth+1000);
         enemigos[i].posEney = GetRandomValue(50, 350);
-        enemigos[i].velocidad.x = 3;
+        enemigos[i].velocidad.x = velEne;
         enemigos[i].velocidad.y = 5;
         enemigos[i].active = true;
         E->InsertarFinal(i);
     }
+    for(int i = 0; i < 50; i++) {
+        asteroides[i].posEnex = GetRandomValue(screenWidth, screenWidth+1000);
+        asteroides[i].posEney = GetRandomValue(50, 330);
+        asteroides[i].velocidad.x = 1;
+        asteroides[i].velocidad.y = 1;
+        asteroides[i].active = true;
+        A->InsertarFinal(i);
+    }
 }
+
+
+
+
 /**
  * Función la cual le da al jugador los límites de la pantalla, su cambio de sprites, la posibilidad de disparar a
  * cierta cadencia, además de configurarla dependiendo de las teclas que presiona el jugador y tener cierta munición.
@@ -671,7 +695,7 @@ void actJuego(void){
                 }
             }
         }
-        if(balas1== 0){
+        if(balas1 == 0){
             for(int i=0; i<balasColl;i++) {
                 if (!recicladas[i].active && cadencia % 48 == 0) {
                     recicladas[i].rec.x = 85;
@@ -780,10 +804,24 @@ void actJuego(void){
                     disparos1[i].rec.x += disparos1[i].balavel.x;
                     for(int j=0; j<enemigosActivos;j++){
                         if(enemigos[j].active){
-                            if(abs(disparos1[i].rec.x+5-enemigos[j].posEnex-10)<=10 and abs(disparos1[i].rec.y+5-enemigos[j].posEney-10)<=20) {
+                            if(abs(disparos1[i].rec.x+5-enemigos[j].posEnex-10)<=10 and abs(disparos1[i].rec.y-enemigos[j].posEney-17)<=17) {
                                 balasColl--;
-                                enemigos[j].active = false;
+                                navesFuera++;
+                                if(!fase2)eliminaciones1++;
+                                else{
+                                    eliminaciones2++;
+                                }
+                                enemigos[j].posEnex = GetRandomValue(screenWidth, screenWidth + 3000);
+                                enemigos[j].posEney = GetRandomValue(50, 350);
+                                //enemigos[j].active = false;
                             }
+                        }
+                    }
+                    for(int x=0; x<50;x++){
+                        if(abs(disparos1[i].rec.x+5-asteroides[x].posEnex-10)<=5 and abs(disparos1[i].rec.y+5-asteroides[x].posEney-5)<=10){
+                            balasColl--;
+                            asteroides[x].posEnex = GetRandomValue(screenWidth, screenWidth + 3000);
+                            asteroides[x].posEney = GetRandomValue(50, 330);
                         }
                     }
                     //l->MostrarLista();
@@ -800,9 +838,25 @@ void actJuego(void){
                 if (disparos2[i].rec.x <= 800) {
                     disparos2[i].rec.x += disparos2[i].balavel.x;
                     for(int j=0; j<enemigosActivos;j++){
-                        if(abs(disparos2[i].rec.x+5-enemigos[j].posEnex-10)<=10 and abs(disparos2[i].rec.y+5-enemigos[j].posEney-10)<=20){
+                        if(enemigos[j].active) {
+                            if (abs(disparos2[i].rec.x + 5 - enemigos[j].posEnex - 10) <= 10 and
+                                abs(disparos2[i].rec.y + 5 - enemigos[j].posEney - 17) <= 17) {
+                                balasColl--;
+                                navesFuera++;
+                                if (!fase2)eliminaciones1++;
+                                else {
+                                    eliminaciones2++;
+                                }
+                                enemigos[j].posEnex = GetRandomValue(screenWidth, screenWidth + 3000);
+                                enemigos[j].posEney = GetRandomValue(50, 350);
+                            }
+                        }
+                    }
+                    for(int x=0; x<50;x++){
+                        if(abs(disparos2[i].rec.x+5-asteroides[x].posEnex-5)<=10 and abs(disparos2[i].rec.y+5-asteroides[x].posEney-5)<=10){
                             balasColl--;
-                            enemigos[j].active = false;
+                            asteroides[x].posEnex = GetRandomValue(screenWidth, screenWidth + 3000);
+                            asteroides[x].posEney = GetRandomValue(50, 330);
                         }
                     }
                 } else {
@@ -818,9 +872,25 @@ void actJuego(void){
                 if (disparos3[i].rec.x <= 800) {
                     disparos3[i].rec.x += disparos3[i].balavel.x;
                     for(int j=0; j<enemigosActivos;j++){
-                        if(abs(disparos3[i].rec.x+5-enemigos[j].posEnex-10)<=10 and abs(disparos3[i].rec.y+5-enemigos[j].posEney-10)<=20){
+                        if(enemigos[j].active) {
+                            if (abs(disparos3[i].rec.x + 5 - enemigos[j].posEnex - 10) <= 10 and
+                                abs(disparos3[i].rec.y + 5 - enemigos[j].posEney - 17) <= 17) {
+                                balasColl--;
+                                navesFuera++;
+                                if (!fase2)eliminaciones1++;
+                                else {
+                                    eliminaciones2++;
+                                }
+                                enemigos[j].posEnex = GetRandomValue(screenWidth, screenWidth + 3000);
+                                enemigos[j].posEney = GetRandomValue(50, 350);
+                            }
+                        }
+                    }
+                    for(int x=0; x<50;x++){
+                        if(abs(disparos3[i].rec.x+5-asteroides[x].posEnex-10)<=5 and abs(disparos3[i].rec.y+5-asteroides[x].posEney-10)<=5){
                             balasColl--;
-                            enemigos[j].active = false;
+                            asteroides[x].posEnex = GetRandomValue(screenWidth, screenWidth + 3000);
+                            asteroides[x].posEney = GetRandomValue(50, 330);
                         }
                     }
                 } else {
@@ -837,8 +907,13 @@ void actJuego(void){
                 for(int j=0; j<enemigosActivos;j++){
                     if(enemigos[j].active){
                         if(abs(recicladas[i].rec.x+5-enemigos[j].posEnex-10)<=10 and abs(recicladas[i].rec.y+5-enemigos[j].posEney-10)<=20) {
-                            recicladas[i].active = false;
-                            enemigos[j].active = false;
+                            navesFuera++;
+                            if(!fase2)eliminaciones1++;
+                            else{
+                                eliminaciones2++;
+                            }
+                            enemigos[j].posEnex = GetRandomValue(screenWidth, screenWidth + 3000);
+                            enemigos[j].posEney = GetRandomValue(50, 350);
                         }
                     }
                 }
@@ -847,16 +922,22 @@ void actJuego(void){
             }
         }
     }
+/**
+ * Código oleadas
+ */
     switch (wave) {
         case FIRST: {
-
-            if (navesFuera == enemigosActivos) {
-                oleada = 1;
+            oleada = 1;
+            if (navesFuera == enemigosActivos){
                 navesFuera = 0;
+                for(int i = 0; i < 5; i++) {
+                    if(!asteroides[i].active) asteroides[i].active = true;
+                }
                 for (int i = 0; i < enemigosActivos; i++) {
                     if (!enemigos[i].active) enemigos[i].active = true;
                 }
                 enemigosActivos = oleada2;
+                oleada = 2;
                 wave = SECOND;
             }
             break;
@@ -864,11 +945,15 @@ void actJuego(void){
         case SECOND: {
             if (navesFuera == enemigosActivos) {
                 navesFuera = 0;
+                for(int i = 0; i < 5; i++) {
+                    if(!asteroides[i].active) asteroides[i].active = true;
+                }
                 oleada = 2;
                 for (int i = 0; i < enemigosActivos; i++) {
                     if (!enemigos[i].active) enemigos[i].active = true;
                 }
                 enemigosActivos = oleada3;
+                oleada = 3;
                 wave = THIRD;
             }
             break;
@@ -876,11 +961,15 @@ void actJuego(void){
         case THIRD: {
             if (navesFuera == enemigosActivos) {
                 navesFuera = 0;
+                for(int i = 0; i < 5; i++) {
+                    if(!asteroides[i].active) asteroides[i].active = true;
+                }
                 oleada = 3;
                 for (int i = 0; i < enemigosActivos; i++) {
                     if (!enemigos[i].active) enemigos[i].active = true;
                 }
                 enemigosActivos = oleada4;
+                oleada = 4;
                 wave = FOURTH;
             }
             break;
@@ -888,44 +977,150 @@ void actJuego(void){
         case FOURTH: {
             if (navesFuera == enemigosActivos) {
                 navesFuera = 0;
+                for(int i = 0; i < 5; i++) {
+                    if(!asteroides[i].active) asteroides[i].active = true;
+                }
                 oleada = 4;
                 for (int i = 0; i < enemigosActivos; i++) {
                     if (!enemigos[i].active) enemigos[i].active = true;
                 }
                 enemigosActivos = oleada5;
+                oleada = 5;
                 wave = FIFTH;
             }
             break;
         }
         case FIFTH: {
             if (navesFuera == enemigosActivos) {
+                navesFuera = 0;
+                for(int i = 0; i < 5; i++) {
+                    if(!asteroides[i].active) asteroides[i].active = true;
+                }
                 oleada = 5;
                 for (int i = 0; i < enemigosActivos; i++) {
                     if (!enemigos[i].active) enemigos[i].active = true;
                 }
-                cout << "Pasa fase " << endl;
+                if(!fase2)fase2=true;
+                if(!startFase2)startFase2=true;
+                enemigosActivos = oleada6;
+                oleada = 6;
+                wave = SIXTH;
+            }
+            break;
+        }
+        case SIXTH: {
+            if (navesFuera == enemigosActivos) {
+                navesFuera = 0;
+                for(int i = 0; i < 5; i++) {
+                    if(!asteroides[i].active) asteroides[i].active = true;
+                }
+                oleada = 6;
+                for (int i = 0; i < enemigosActivos; i++) {
+                    if (!enemigos[i].active) enemigos[i].active = true;
+                }
+                enemigosActivos = oleada7;
+                oleada = 7;
+                wave = SEVENTH;
+            }
+            break;
+        }
+        case SEVENTH: {
+            if (navesFuera == enemigosActivos) {
+                navesFuera = 0;
+                for(int i = 0; i < 5; i++) {
+                    if(!asteroides[i].active) asteroides[i].active = true;
+                }
+                oleada = 7;
+                for (int i = 0; i < enemigosActivos; i++) {
+                    if (!enemigos[i].active) enemigos[i].active = true;
+                }
+                enemigosActivos = oleada8;
+                oleada = 8;
+                wave = EIGHTH;
+            }
+            break;
+        }
+        case EIGHTH: {
+            if (navesFuera == enemigosActivos) {
+                navesFuera = 0;
+                for(int i = 0; i < 5; i++) {
+                    if(!asteroides[i].active) asteroides[i].active = true;
+                }
+                oleada = 8;
+                for (int i = 0; i < enemigosActivos; i++) {
+                    if (!enemigos[i].active) enemigos[i].active = true;
+                }
+                enemigosActivos = oleada9;
+                oleada = 9;
+                wave = NINETH;
+            }
+            break;
+        }
+        case NINETH: {
+            if (navesFuera == enemigosActivos) {
+                navesFuera = 0;
+                for(int i = 0; i < 5; i++) {
+                    if(!asteroides[i].active) asteroides[i].active = true;
+                }
+                oleada = 9;
+                for (int i = 0; i < enemigosActivos; i++) {
+                    if (!enemigos[i].active) enemigos[i].active = true;
+                }
+                enemigosActivos = oleada10;
+                oleada = 10;
+                wave = TENTH;
+            }
+            break;
+        }
+        case TENTH: {
+            if (navesFuera == enemigosActivos) {
+
             }
             break;
         }
         default:
             break;
     }
+/**
+ * Termina oleadas
+ */
     for (int i = 0; i < enemigosActivos; i++) {
-        //cout<<"y de enemigo "<<1<<"  "<<enemigos[0].rec.y<<endl;
-        //cout<<"y de jugador "<<posJugy<<endl;
         if (abs((posJugy + 30) - (enemigos[i].posEney + 10)) <= 40 and
             abs(posJugx + 25 - enemigos[i].posEnex) <= 40) {
+            enemigos[i].posEnex = GetRandomValue(500, 700);
+            //enemigos[i].posEnex = GetRandomValue(screenWidth, screenWidth + 3000);
+            enemigos[i].posEney = GetRandomValue(50, 350);
             E->EliminarE(i);
-            enemigos[i].active = false;
         }
     }
     for (int i = 0; i < enemigosActivos; i++) {
         if (enemigos[i].active) {
             enemigos[i].posEnex -= enemigos[i].velocidad.x;
             if (enemigos[i].posEnex < -20) {
-                navesFuera += 1;
-                enemigos[i].active = false;
+                enemigos[i].posEnex = GetRandomValue(screenWidth, screenWidth + 3000);
+                enemigos[i].posEney = GetRandomValue(50, 350);
+                //enemigos[i].active = false;
             }
+        }
+    }
+    for(int i = 0; i < 50; i++) {
+        if(asteroides[i].active){
+            asteroides[i].posEnex -= asteroides[i].velocidad.x;
+            asteroides[i].posEney += asteroides[i].velocidad.y;
+            if(asteroides[i].posEnex < -20){
+                asteroides[i].active = false;
+            }
+            if(50 <= asteroides[i].posEney){
+                asteroides[i].velocidad.y *=-1;
+            }
+            if(asteroides[i].posEney <= 340){
+                asteroides[i].velocidad.y *=-1;
+            }
+        }
+        if (abs((posJugy + 30) - (asteroides[i].posEney + 5)) <= 20 and
+            abs(posJugx + 25 - asteroides[i].posEnex) <= 25) {
+            asteroides[i].active = false;
+            A->EliminarE(i);
         }
     }
 }
@@ -973,6 +1168,10 @@ int main(){
     Texture2D icoMun = LoadTexture("imagenes/municion.png");
     Texture2D munRec = LoadTexture("imagenes/municionRoja.png");
     Texture2D enemigos1 = LoadTexture("imagenes/enemigo1.png");
+    Texture2D enemigos2 = LoadTexture("imagenes/enemigo2.png");
+    Texture2D eli1 = LoadTexture("imagenes/eli1.png");
+    Texture2D eli2 = LoadTexture("imagenes/eli2.png");
+    Texture2D asteroide = LoadTexture("imagenes/asteroide.png");
 
     ///////////////////////////////////////////////////////////////////////////////////
 
@@ -1022,16 +1221,19 @@ int main(){
                 if (CheckCollisionPointRec(GetMousePosition(), boton1) && IsMouseButtonPressed(MOUSE_LEFT_BUTTON))
                 {
                     dificultad = 1;
+                    velEne = 2;
                     currentScreen = ESTRATEGIAS;
                 }
                 if (CheckCollisionPointRec(GetMousePosition(), boton2) && IsMouseButtonPressed(MOUSE_LEFT_BUTTON))
                 {
                     dificultad = 2;
+                    velEne = 4;
                     currentScreen = ESTRATEGIAS;
                 }
                 if (CheckCollisionPointRec(GetMousePosition(), boton3) && IsMouseButtonPressed(MOUSE_LEFT_BUTTON))
                 {
                     dificultad = 3;
+                    velEne = 6;
                     currentScreen = ESTRATEGIAS;
                 }
             } break;
@@ -1120,16 +1322,63 @@ int main(){
                 //{
                 //    currentScreen = ENDING;
                 //}
+                if(cantVidas == 0){
+                    currentScreen = ENDING;
+                }
 
             } break;
             case ENDING:
             {
-                // TODO: Update ENDING screen variables here!
+                cadencia = 0;
+                rate = 1;
                 velocity = 5;
+                cantVidas = 3;
+                posJugx = 0;
+                posJugy = 0;
+                posEnex = 0;
+                posEney = 0;
+
+                Texture2D navecita;
                 nave = "imagenes/nave.png";
                 naveDown = "imagenes/naveDown.png";
                 naveUp = "imagenes/naveUp.png";
-                rate = 1;
+
+                balasColl = 0;
+                balasRec;
+                oleada = 1;
+                balas1 = 1000;
+                Disparos disparos1[cantBalas1] = {0 };
+
+                balas2 = 500;
+                Disparos disparos2[cantBalas2] = {0 };
+
+                balas3 = 250;
+                Disparos disparos3[cantBalas3] = {0 };
+
+                Disparos recicladas[500] ={0};
+
+                dificultad = 1;
+                Jugador jugador1 = { 0 };
+
+                string respuesta = "";
+                string respuestaE = "";
+
+                poderEsc = false;
+                poderCad = false;
+                poderVid = false;
+                actPod = false;
+
+                enemigosActivos = 0;
+                Enemigos enemigos[enemigosMaximos] ={0};
+                EnemyWave wave = {static_cast<EnemyWave>(0)};
+                Enemigos asteroides[30] = {0};
+                velEne = 2;
+                navesFuera = 0;
+                fase2 = false;
+                startFase2 = false;
+                eliminaciones1 = 0;
+                eliminaciones2 = 0;
+
                 // Press enter to return to INICIO screen
                 if (IsKeyPressed(KEY_ENTER) || IsGestureDetected(GESTURE_TAP))
                 {
@@ -1182,6 +1431,10 @@ int main(){
 //                DrawTexture(fondoG, 0, 10, RAYWHITE);
                 DrawTexture(navecita, posJugx, posJugy, RAYWHITE);
                 DrawTexture(icoVidas,10,5,RAYWHITE);
+                DrawTexture(eli1, 180,380,RAYWHITE);
+                DrawTexture(eli2, 240,380,RAYWHITE);
+                DrawText(TextFormat("%02i",eliminaciones1),210,383,20,GRAY);
+                DrawText(TextFormat("%02i",eliminaciones2),270,383,20,GRAY);
                 DrawTexture(icoMun, 630, 380, RAYWHITE);
                 DrawTexture(munRec,520,382,RAYWHITE);
                 DrawText("x",548,380,20,GRAY);
@@ -1192,7 +1445,11 @@ int main(){
                 }
                 if(dificultad == 1) {
                     for (int i = 0; i < cantBalas1; i++) {
-                        if (disparos1[i].active) DrawRectangleRec(disparos1[i].rec, YELLOW);
+                        if (disparos1[i].active) {
+                            DrawRectangleRec(disparos1[i].rec, YELLOW);
+                        } else{
+                            //break;
+                        }
                     }
                     DrawText("x",658,380,20,GRAY);
                     DrawText(TextFormat("%04i", balas1), 673, 382, 20, GRAY);
@@ -1226,19 +1483,37 @@ int main(){
                         if (recicladas[i].active) DrawRectangleRec(recicladas[i].rec, RED);
                     }
                 }
-                for (int i = 0; i < enemigosActivos; i++){
-                    if(enemigos[i].active){
-                        //DrawRectangle(enemigos[i].posEnex, enemigos[i].posEney+2,35,35,RED); //HITBOX ENEMIGO
-                        DrawTexture(enemigos1, enemigos[i].posEnex, enemigos[i].posEney,RAYWHITE);
+                if(fase2){
+                    for (int i = 0; i < enemigosMaximos; i++) {
+                        if (enemigos[i].active) {
+                            //DrawRectangle(enemigos[i].posEnex, enemigos[i].posEney+2,35,35,RED); //HITBOX ENEMIGO
+                            DrawTexture(enemigos2, enemigos[i].posEnex, enemigos[i].posEney, RAYWHITE);
+                        }
                     }
-                    else{
+                }
+                else {
+                    for (int i = 0; i < enemigosMaximos; i++) {
+                        if (enemigos[i].active) {
+                            //DrawRectangle(enemigos[i].posEnex, enemigos[i].posEney+2,35,35,RED); //HITBOX ENEMIGO
+                            DrawTexture(enemigos1, enemigos[i].posEnex, enemigos[i].posEney, RAYWHITE);
+                        }
                     }
+                }
+                for(int i = 0; i < 50; i++) {
+                    if(asteroides[i].active){
+                        DrawTexture(asteroide,asteroides[i].posEnex, asteroides[i].posEney, RAYWHITE);
+                    }
+                }
+                if(startFase2){
+                    DrawText(" FASE 2 ",30,380,30,GRAY);
+                } else{
+                    DrawText(" FASE 1 ",30,380,30,GRAY);
                 }
                 DrawText("Para activar el poder presione [z]", activarPoder.x + 10, activarPoder.y + 5, 15, DARKGRAY);
                 DrawText("x", 50, 18, 20, GRAY);
                 DrawText(TextFormat("%02i", cantVidas), 65, 20, 20, GRAY);
                 DrawText("Wave", 310, 10, 30, GRAY);
-                DrawText(TextFormat("%01i", cantVidas), 400, 10, 30, GRAY);
+                DrawText(TextFormat("%01i", oleada), 400, 10, 30, GRAY);
 
             } break;
             case ENDING:
