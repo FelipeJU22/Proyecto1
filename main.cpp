@@ -13,6 +13,14 @@
  */
 using namespace std;
 
+#define oleada1 4
+#define oleada2 6
+#define oleada3 10
+#define oleada4 13
+#define oleada5 17
+#define enemigosMaximos 50
+
+
 /**
  * Se setean las distintas ventanas que se van a utilizar en el juego
  */
@@ -21,7 +29,7 @@ typedef enum GameScreen {INICIO, ESTRATEGIAS, GAMEPLAY, ENDING } GameScreen;
 /**
  *
  */
-typedef enum { FIRST = 0, SECOND, THIRD } Waves;
+typedef enum { FIRST = 0, SECOND, THIRD, FOURTH, FIFTH} EnemyWave;;
 
 /**
  * Estructura utilizada para el jugador, se le da velocidad
@@ -33,9 +41,12 @@ typedef struct Jugador {
  * Estructura utilizada para los enemigos,
  */
 typedef struct Enemigos {
-    Image enemigos;
+    Rectangle rec;
+    int posEnex;
+    int posEney;
     Vector2 velocidad;
     bool active;
+    Color color;
 }Enemigos;
 
 /**
@@ -48,38 +59,59 @@ typedef struct Disparos{
     int numero;
 } Disparos;
 /**
- * Variables generales para el funcionamiento del juego, como son la velocidad del jugador, la posición, las imagenes bases de este, etc.
+ * Variables generales para el funcionamiento del juego, como son la velocidad del jugador, la posiciÃ³n, las imagenes bases de este, etc.
  */
 static int cadencia = 0;
 static int rate = 1;
+static int velocity = 5;
+static int cantVidas = 3;
+
 static int posJugx = 0;
 static int posJugy = 0;
+static int posEnex = 0;
+static int posEney = 0;
+
 static Texture2D navecita;
-static int velocity = 5;
 static const char *nave = "imagenes/nave.png";
 static const char *naveDown = "imagenes/naveDown.png";
 static const char *naveUp = "imagenes/naveUp.png";
+
 static int balasColl = 0;
 static int balasRec;
-static const int cantBalas1 = 200;
-static int balas1 = 200;
+static int oleada = 1;
+
+static const int cantBalas1 = 20;
+static int balas1 = 20;
 static Disparos disparos1[cantBalas1] = {0 };
+
 static const int cantBalas2 = 250;
 static int balas2 = 250;
 static Disparos disparos2[cantBalas2] = {0 };
+
 static const int cantBalas3 = 125;
 static int balas3 = 125;
 static Disparos disparos3[cantBalas3] = {0 };
+
 static Disparos recicladas[500] ={0};
+
 static int dificultad = 1;
-static int cantVidas = 3;
 static Jugador jugador1 = { 0 };
+
 static string respuesta = "";
+static string respuestaE = "";
+
 static bool poderEsc = false;
 static bool poderCad = false;
 static bool poderVid = false;
 static bool actPod = false;
 
+static int enemigosActivos = 0;
+static Enemigos enemigos[enemigosMaximos] ={0};
+static EnemyWave wave = {static_cast<EnemyWave>(0)};
+static int navesFuera = 0;
+
+static const int screenWidth = 732;
+static const int screenHeight = 413;
 
 
 /**
@@ -161,7 +193,6 @@ public:
                 cont++;
             }
             return cont;
-            cout<< endl;
         }
     }
     void InsertarInicioC(Nodo *puntero) {
@@ -363,6 +394,31 @@ public:
         } else{
         }
     }
+    void EliminarE(int data) {
+        EncuentraE(data);
+        if(respuestaE == "si") {
+            if (data == cabeza->dato) {
+
+                Nodo *temp = cabeza;
+                cabeza = cabeza->siguiente;
+                tamaño--;
+                cantVidas--;
+                navesFuera+=1;
+            } else {
+                cantVidas--;
+                navesFuera+=1;
+                Nodo *buscador = cabeza;
+                Nodo *prev;
+                while (buscador->dato != data) {
+                    prev = buscador;
+                    buscador = buscador->siguiente;
+                }
+                prev->siguiente = buscador->siguiente; // prev->nextPtr = prev->nextPtr->nextPtr;
+                tamaño--;
+            }
+        } else{
+        }
+    }
     /**
      * Función para mostrar la lista enlazada actual
      */
@@ -406,10 +462,38 @@ public:
             }
         }
     }
+    void EncuentraE(int data){
+        Nodo *temp;
+        if (cabeza == nullptr) {
+            respuestaE = "no";
+        } else{
+            int f = 0;
+            temp = cabeza;
+
+            do {
+                if (temp->dato == data) {
+                    f = 1;
+                    respuestaE = "si";
+                    break;
+                }
+                if(temp->siguiente == nullptr){
+                    break;
+                }
+                else{
+                    temp = temp->siguiente;
+                }
+
+            } while (temp != cabeza);
+            if (f == 0) {
+                respuestaE = "no";
+            }
+        }
+    }
 };
 
 static Lista *l = new Lista();
 static Lista *R =new Lista();
+static Lista *E = new Lista();
 static Collector *C = new Collector();
 /**
  *
@@ -467,6 +551,14 @@ void juego(void){
         recicladas[i].numero = i;
         recicladas[i].active = false;
         R->InsertarFinal(i);
+    }
+    for(int i = 0; i < enemigosMaximos; i++){
+        enemigos[i].posEnex = GetRandomValue(screenWidth, screenWidth + 3000);
+        enemigos[i].posEney = GetRandomValue(50, 350);
+        enemigos[i].velocidad.x = 3;
+        enemigos[i].velocidad.y = 5;
+        enemigos[i].active = true;
+        E->InsertarFinal(i);
     }
 }
 /**
@@ -686,6 +778,14 @@ void actJuego(void){
             if (disparos1[i].active) {
                 if (disparos1[i].rec.x <= 800) {
                     disparos1[i].rec.x += disparos1[i].balavel.x;
+                    for(int j=0; j<enemigosActivos;j++){
+                        if(enemigos[j].active){
+                            if(abs(disparos1[i].rec.x+5-enemigos[j].posEnex-10)<=10 and abs(disparos1[i].rec.y+5-enemigos[j].posEney-10)<=20) {
+                                balasColl--;
+                                enemigos[j].active = false;
+                            }
+                        }
+                    }
                     //l->MostrarLista();
                 } else {
                     l->EnviarCollector(i);
@@ -699,6 +799,12 @@ void actJuego(void){
             if(disparos2[i].active) {
                 if (disparos2[i].rec.x <= 800) {
                     disparos2[i].rec.x += disparos2[i].balavel.x;
+                    for(int j=0; j<enemigosActivos;j++){
+                        if(abs(disparos2[i].rec.x+5-enemigos[j].posEnex-10)<=10 and abs(disparos2[i].rec.y+5-enemigos[j].posEney-10)<=20){
+                            balasColl--;
+                            enemigos[j].active = false;
+                        }
+                    }
                 } else {
                     l->EnviarCollector(i);
                     //l->MostrarLista();
@@ -711,6 +817,12 @@ void actJuego(void){
             if(disparos3[i].active) {
                 if (disparos3[i].rec.x <= 800) {
                     disparos3[i].rec.x += disparos3[i].balavel.x;
+                    for(int j=0; j<enemigosActivos;j++){
+                        if(abs(disparos3[i].rec.x+5-enemigos[j].posEnex-10)<=10 and abs(disparos3[i].rec.y+5-enemigos[j].posEney-10)<=20){
+                            balasColl--;
+                            enemigos[j].active = false;
+                        }
+                    }
                 } else {
                     l->EnviarCollector(i);
                     //l->MostrarLista();
@@ -722,8 +834,97 @@ void actJuego(void){
         if(recicladas[i].active) {
             if (recicladas[i].rec.x <= 800) {
                 recicladas[i].rec.x += recicladas[i].balavel.x;
+                for(int j=0; j<enemigosActivos;j++){
+                    if(enemigos[j].active){
+                        if(abs(recicladas[i].rec.x+5-enemigos[j].posEnex-10)<=10 and abs(recicladas[i].rec.y+5-enemigos[j].posEney-10)<=20) {
+                            recicladas[i].active = false;
+                            enemigos[j].active = false;
+                        }
+                    }
+                }
             }else{
                 R->EliminarR(i);
+            }
+        }
+    }
+    switch (wave) {
+        case FIRST: {
+
+            if (navesFuera == enemigosActivos) {
+                oleada = 1;
+                navesFuera = 0;
+                for (int i = 0; i < enemigosActivos; i++) {
+                    if (!enemigos[i].active) enemigos[i].active = true;
+                }
+                enemigosActivos = oleada2;
+                wave = SECOND;
+            }
+            break;
+        }
+        case SECOND: {
+            if (navesFuera == enemigosActivos) {
+                navesFuera = 0;
+                oleada = 2;
+                for (int i = 0; i < enemigosActivos; i++) {
+                    if (!enemigos[i].active) enemigos[i].active = true;
+                }
+                enemigosActivos = oleada3;
+                wave = THIRD;
+            }
+            break;
+        }
+        case THIRD: {
+            if (navesFuera == enemigosActivos) {
+                navesFuera = 0;
+                oleada = 3;
+                for (int i = 0; i < enemigosActivos; i++) {
+                    if (!enemigos[i].active) enemigos[i].active = true;
+                }
+                enemigosActivos = oleada4;
+                wave = FOURTH;
+            }
+            break;
+        }
+        case FOURTH: {
+            if (navesFuera == enemigosActivos) {
+                navesFuera = 0;
+                oleada = 4;
+                for (int i = 0; i < enemigosActivos; i++) {
+                    if (!enemigos[i].active) enemigos[i].active = true;
+                }
+                enemigosActivos = oleada5;
+                wave = FIFTH;
+            }
+            break;
+        }
+        case FIFTH: {
+            if (navesFuera == enemigosActivos) {
+                oleada = 5;
+                for (int i = 0; i < enemigosActivos; i++) {
+                    if (!enemigos[i].active) enemigos[i].active = true;
+                }
+                cout << "Pasa fase " << endl;
+            }
+            break;
+        }
+        default:
+            break;
+    }
+    for (int i = 0; i < enemigosActivos; i++) {
+        //cout<<"y de enemigo "<<1<<"  "<<enemigos[0].rec.y<<endl;
+        //cout<<"y de jugador "<<posJugy<<endl;
+        if (abs((posJugy + 30) - (enemigos[i].posEney + 10)) <= 40 and
+            abs(posJugx + 25 - enemigos[i].posEnex) <= 40) {
+            E->EliminarE(i);
+            enemigos[i].active = false;
+        }
+    }
+    for (int i = 0; i < enemigosActivos; i++) {
+        if (enemigos[i].active) {
+            enemigos[i].posEnex -= enemigos[i].velocidad.x;
+            if (enemigos[i].posEnex < -20) {
+                navesFuera += 1;
+                enemigos[i].active = false;
             }
         }
     }
@@ -771,6 +972,7 @@ int main(){
     Texture2D fondoG = LoadTexture("imagenes/fondoGame.png");
     Texture2D icoMun = LoadTexture("imagenes/municion.png");
     Texture2D munRec = LoadTexture("imagenes/municionRoja.png");
+    Texture2D enemigos1 = LoadTexture("imagenes/enemigo1.png");
 
     ///////////////////////////////////////////////////////////////////////////////////
 
@@ -779,13 +981,13 @@ int main(){
     // Load music file
     Music music = LoadMusicStream("music/menu.mp3");
     // Play music
-    PlayMusicStream(music);
+    //PlayMusicStream(music);
 
 
     Texture2D frames[24]; // Array de texturas para almacenar cada frame
     int currentFrame = 0; // Indice del frame actual
     float frameCounter = 0; // Contador para controlar la velocidad de la animacion
-    float frameSpeed = 0.07f; // Velocidad de la animacion (cuanto menor, mas rapida)
+    float frameSpeed = 0.1f; // Velocidad de la animacion (cuanto menor, mas rapida)
 
     // Cargar los frames de la animacion
     for (int i = 0; i < 24; i++)
@@ -845,7 +1047,7 @@ int main(){
                     music = LoadMusicStream("music/gameplay.mp3");
 
                     // Play new music
-                    PlayMusicStream(music);
+                    //PlayMusicStream(music);
 
                     juego();
                 }
@@ -976,7 +1178,7 @@ int main(){
                 // TODO: Draw GAMEPLAY screen here!
                 DrawRectangle(0,0,screenWidth,screenHeight,BLACK);
 
-                DrawTexture(frames[currentFrame], 0, 0, RAYWHITE);
+                DrawTexture(frames[currentFrame], 0, 50, RAYWHITE);
 //                DrawTexture(fondoG, 0, 10, RAYWHITE);
                 DrawTexture(navecita, posJugx, posJugy, RAYWHITE);
                 DrawTexture(icoVidas,10,5,RAYWHITE);
@@ -1022,6 +1224,14 @@ int main(){
                 if(balas3 == 0){
                     for (int i = 0; i < balasColl; i++) {
                         if (recicladas[i].active) DrawRectangleRec(recicladas[i].rec, RED);
+                    }
+                }
+                for (int i = 0; i < enemigosActivos; i++){
+                    if(enemigos[i].active){
+                        //DrawRectangle(enemigos[i].posEnex, enemigos[i].posEney+2,35,35,RED); //HITBOX ENEMIGO
+                        DrawTexture(enemigos1, enemigos[i].posEnex, enemigos[i].posEney,RAYWHITE);
+                    }
+                    else{
                     }
                 }
                 DrawText("Para activar el poder presione [z]", activarPoder.x + 10, activarPoder.y + 5, 15, DARKGRAY);
