@@ -572,7 +572,7 @@ void juego(void){
         enemigos[i].active = true;
         E->InsertarFinal(i);
     }
-    for(int i = 0; i < 50; i++) {
+    for(int i = 0; i < 30; i++) {
         asteroides[i].posEnex = GetRandomValue(screenWidth, screenWidth+1000);
         asteroides[i].posEney = GetRandomValue(50, 330);
         asteroides[i].velocidad.x = 1;
@@ -817,7 +817,7 @@ void actJuego(void){
                             }
                         }
                     }
-                    for(int x=0; x<50;x++){
+                    for(int x=0; x<30;x++){
                         if(abs(disparos1[i].rec.x+5-asteroides[x].posEnex-10)<=5 and abs(disparos1[i].rec.y+5-asteroides[x].posEney-5)<=10){
                             balasColl--;
                             asteroides[x].posEnex = GetRandomValue(screenWidth, screenWidth + 3000);
@@ -852,7 +852,7 @@ void actJuego(void){
                             }
                         }
                     }
-                    for(int x=0; x<50;x++){
+                    for(int x=0; x<30;x++){
                         if(abs(disparos2[i].rec.x+5-asteroides[x].posEnex-5)<=10 and abs(disparos2[i].rec.y+5-asteroides[x].posEney-5)<=10){
                             balasColl--;
                             asteroides[x].posEnex = GetRandomValue(screenWidth, screenWidth + 3000);
@@ -886,7 +886,7 @@ void actJuego(void){
                             }
                         }
                     }
-                    for(int x=0; x<50;x++){
+                    for(int x=0; x<30;x++){
                         if(abs(disparos3[i].rec.x+5-asteroides[x].posEnex-10)<=5 and abs(disparos3[i].rec.y+5-asteroides[x].posEney-10)<=5){
                             balasColl--;
                             asteroides[x].posEnex = GetRandomValue(screenWidth, screenWidth + 3000);
@@ -1103,7 +1103,7 @@ void actJuego(void){
             }
         }
     }
-    for(int i = 0; i < 50; i++) {
+    for(int i = 0; i < 30; i++) {
         if(asteroides[i].active){
             asteroides[i].posEnex -= asteroides[i].velocidad.x;
             asteroides[i].posEney += asteroides[i].velocidad.y;
@@ -1499,7 +1499,7 @@ int main(){
                         }
                     }
                 }
-                for(int i = 0; i < 50; i++) {
+                for(int i = 0; i < 30; i++) {
                     if(asteroides[i].active){
                         DrawTexture(asteroide,asteroides[i].posEnex, asteroides[i].posEney, RAYWHITE);
                     }
