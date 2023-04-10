@@ -1410,6 +1410,7 @@ int main(){
             } break;
             case ESTRATEGIAS:
             {
+
                 // TODO: Draw ESTRATEGIAS screen here!
                 DrawTexture(fondoS, 0, 0, RAYWHITE);
                 DrawRectangleRec(strat1, WHITE);
