@@ -5,6 +5,7 @@
 #include <raylib.h>
 #include <math.h>
 #include "pugixml-1.13/src/pugixml.cpp"
+#include <boost/asio.hpp>
 
 
 #define cantidad_max_ene 50
@@ -13,23 +14,23 @@
  */
 using namespace std;
 
-#define oleada1 1
-#define oleada2 2
-#define oleada3 3
-#define oleada4 4
-#define oleada5 5
-#define oleada6 6
+#define oleada1 4
+#define oleada2 6
+#define oleada3 10
+#define oleada4 13
+#define oleada5 17
+#define oleada6 5
 #define oleada7 10
 #define oleada8 15
 #define oleada9 20
 #define oleada10 25
-#define enemigosMaximos 91
+#define enemigosMaximos 125
 
 
 /**
  * Se setean las distintas ventanas que se van a utilizar en el juego
  */
-typedef enum GameScreen {INICIO, ESTRATEGIAS, GAMEPLAY, ENDING } GameScreen;
+typedef enum GameScreen {INICIO, ESTRATEGIAS, GAMEPLAY, GANAR, PERDER} GameScreen;
 
 /**
  *
@@ -109,6 +110,7 @@ static bool poderEsc = false;
 static bool poderCad = false;
 static bool poderVid = false;
 static bool actPod = false;
+static string Vida = "3";
 
 static int enemigosActivos = 0;
 static Enemigos enemigos[enemigosMaximos] ={0};
@@ -120,11 +122,16 @@ static bool fase2 = false;
 static bool startFase2 = false;
 static int eliminaciones1 = 0;
 static int eliminaciones2 = 0;
-
+static bool ganar = false;
 
 static const int screenWidth = 732;
 static const int screenHeight = 413;
 
+//boost::asio::io_service io;
+//boost::asio::serial_port port = boost::asio::serial_port(io, "/dev/ttyACM0");
+//boost::asio::streambuf buffer;
+//istream input_stream(&buffer);
+//static string message;
 
 /**
  * Clase nodo, utilizada para almacenar información
@@ -447,6 +454,13 @@ public:
             cout << endl;
         }
     }
+    void borrar(){
+        while (cabeza->siguiente != nullptr) {
+            cabeza = cabeza->siguiente;
+        }
+        cabeza = nullptr;
+    }
+
     void Encuentra(int data){
         Nodo *temp;
         if (cabeza == nullptr) {
@@ -509,7 +523,66 @@ static Lista *A = new Lista();
 /**
  *
  */
+
+//void arduino(void){
+//    while(message!="a"){
+//
+//    }
+//}
+void reset(void){
+    cadencia = 0;
+    rate = 1;
+    velocity = 5;
+    cantVidas = 3;
+    posJugx = 0;
+    posJugy = 0;
+    posEnex = 0;
+    posEney = 0;
+
+    Texture2D navecita;
+    nave = "imagenes/nave.png";
+    naveDown = "imagenes/naveDown.png";
+    naveUp = "imagenes/naveUp.png";
+
+    balasColl = 0;
+    balasRec;
+    oleada = 1;
+    balas1 = 1000;
+    Disparos disparos1[cantBalas1] = {0 };
+
+    balas2 = 500;
+    Disparos disparos2[cantBalas2] = {0 };
+
+    balas3 = 250;
+    Disparos disparos3[cantBalas3] = {0 };
+
+    Disparos recicladas[500] ={0};
+
+    dificultad = 1;
+    Jugador jugador1 = { 0 };
+
+    string respuesta = "";
+    string respuestaE = "";
+
+    poderEsc = false;
+    poderCad = false;
+    poderVid = false;
+    actPod = false;
+
+    enemigosActivos = 0;
+    Enemigos enemigos[enemigosMaximos] ={0};
+    EnemyWave wave = {static_cast<EnemyWave>(0)};
+    Enemigos asteroides[30] = {0};
+    velEne = 2;
+    navesFuera = 0;
+    fase2 = false;
+    startFase2 = false;
+    eliminaciones1 = 0;
+    eliminaciones2 = 0;
+    ganar = false;
+}
 void juego(void){
+//    arduino();
     enemigosActivos = oleada1;
     posJugx = 20;
     posJugy = 150;
@@ -584,7 +657,6 @@ void juego(void){
 
 
 
-
 /**
  * Función la cual le da al jugador los límites de la pantalla, su cambio de sprites, la posibilidad de disparar a
  * cierta cadencia, además de configurarla dependiendo de las teclas que presiona el jugador y tener cierta munición.
@@ -615,11 +687,10 @@ void actJuego(void){
         doc.load_file("Poder_Escudo.xml");
         pugi::xml_node Poderes = doc.child("Poderes");
         pugi::xml_node Poder = Poderes.child("Poder");
-        string Vida = Poder.child("Vida").text().get();
+        Vida = Poder.child("Vida").text().get();
         const char *Nave = Poder.child("Nave").text().get();
         const char *NaveDown = Poder.child("NaveDown").text().get();
         const char *NaveUp = Poder.child("NaveUp").text().get();
-        cantVidas = stoi(Vida);
         nave = Nave;
         naveDown = NaveDown;
         naveUp = NaveUp;
@@ -646,7 +717,7 @@ void actJuego(void){
         doc.load_file("Poder_Alas.xml");
         pugi::xml_node Poderes = doc.child("Poderes");
         pugi::xml_node Poder = Poderes.child("Poder");
-        string Vida = Poder.child("Vida").text().get();
+        Vida = Poder.child("Vida").text().get();
         const char *Nave = Poder.child("Nave").text().get();
         const char *NaveDown = Poder.child("NaveDown").text().get();
         const char *NaveUp = Poder.child("NaveUp").text().get();
@@ -1074,7 +1145,7 @@ void actJuego(void){
         }
         case TENTH: {
             if (navesFuera == enemigosActivos) {
-
+                ganar = true;
             }
             break;
         }
@@ -1129,7 +1200,6 @@ void actJuego(void){
  */
 
 
-
 void actualizar(void){
     actJuego();
 }
@@ -1138,7 +1208,7 @@ void actualizar(void){
  * llevar la comunicación de ventanas, actualización de sprites, etc.
  * @return
  */
-int main(){
+int main() {
     const int screenWidth = 732;
     const int screenHeight = 413;
 
@@ -1149,16 +1219,16 @@ int main(){
     // TODO: Initialize all required variables and load all required data here!
 
     int framesCounter = 0;          // Useful to count frames
-    Rectangle boton1 = {100, 150, 150, 50 }; // Coordenadas y dimensiones del botón
-    Rectangle boton2 = {100, 225, 150, 50 }; // Coordenadas y dimensiones del botón
-    Rectangle boton3 = {100, 300, 150, 50 }; // Coordenadas y dimensiones del botón
+    Rectangle boton1 = {100, 150, 150, 50}; // Coordenadas y dimensiones del botón
+    Rectangle boton2 = {100, 225, 150, 50}; // Coordenadas y dimensiones del botón
+    Rectangle boton3 = {100, 300, 150, 50}; // Coordenadas y dimensiones del botón
 
-    Rectangle strat1 = {15, 150, 150, 50 }; // Coordenadas y dimensiones del botón
-    Rectangle strat2 = {197, 150, 150, 50 }; // Coordenadas y dimensiones del botón
-    Rectangle strat3 = {385, 150, 150, 50 }; // Coordenadas y dimensiones del botón
-    Rectangle strat4 = {565, 150, 150, 50 }; // Coordenadas y dimensiones del botón
+    Rectangle strat1 = {15, 150, 150, 50}; // Coordenadas y dimensiones del botón
+    Rectangle strat2 = {197, 150, 150, 50}; // Coordenadas y dimensiones del botón
+    Rectangle strat3 = {385, 150, 150, 50}; // Coordenadas y dimensiones del botón
+    Rectangle strat4 = {565, 150, 150, 50}; // Coordenadas y dimensiones del botón
 
-    Rectangle activarPoder = {450,5,150,30};
+    Rectangle activarPoder = {450, 5, 150, 30};
 
     navecita = LoadTexture(nave);
     Texture2D icoVidas = LoadTexture("imagenes/vidas.png");
@@ -1172,6 +1242,8 @@ int main(){
     Texture2D eli1 = LoadTexture("imagenes/eli1.png");
     Texture2D eli2 = LoadTexture("imagenes/eli2.png");
     Texture2D asteroide = LoadTexture("imagenes/asteroide.png");
+    Texture2D win = LoadTexture("imagenes/win.png");
+    Texture2D lose = LoadTexture("imagenes/lose.png");
 
     ///////////////////////////////////////////////////////////////////////////////////
 
@@ -1180,7 +1252,7 @@ int main(){
     // Load music file
     Music music = LoadMusicStream("music/menu.mp3");
     // Play music
-    //PlayMusicStream(music);
+    PlayMusicStream(music);
 
 
     Texture2D frames[24]; // Array de texturas para almacenar cada frame
@@ -1249,7 +1321,7 @@ int main(){
                     music = LoadMusicStream("music/gameplay.mp3");
 
                     // Play new music
-                    //PlayMusicStream(music);
+                    PlayMusicStream(music);
 
                     juego();
                 }
@@ -1309,76 +1381,42 @@ int main(){
             } break;
             case GAMEPLAY:
             {
-                // TODO: Update GAMEPLAY screen variables here!
-
                 actualizar();
-
+//                boost::asio::read_until(port, buffer, "\n");
+//                getline(input_stream, message);
+//                cout<<"mensaje de arduino: "<<message<<endl;
                 if (IsKeyPressed(KEY_Z)){
                     actPod = true;
+                    if(poderEsc){
+                        cantVidas = stoi(Vida);
+                    }
                 }
-
-                    // Press enter to change to ENDING screen
-                //if (IsKeyPressed(KEY_ENTER) || IsGestureDetected(GESTURE_TAP))
-                //{
-                //    currentScreen = ENDING;
-                //}
+                if(ganar == true){
+                    StopMusicStream(music);
+                    music = LoadMusicStream("music/win.mp3");
+                    PlayMusicStream(music);
+                    currentScreen = GANAR;
+                }
                 if(cantVidas == 0){
-                    currentScreen = ENDING;
+                    StopMusicStream(music);
+                    currentScreen = PERDER;
                 }
 
             } break;
-            case ENDING:
+            case GANAR:
             {
-                cadencia = 0;
-                rate = 1;
-                velocity = 5;
-                cantVidas = 3;
-                posJugx = 0;
-                posJugy = 0;
-                posEnex = 0;
-                posEney = 0;
 
-                Texture2D navecita;
-                nave = "imagenes/nave.png";
-                naveDown = "imagenes/naveDown.png";
-                naveUp = "imagenes/naveUp.png";
+                reset();
+                // Press enter to return to INICIO screen
+                if (IsKeyPressed(KEY_ENTER) || IsGestureDetected(GESTURE_TAP))
+                {
+                    currentScreen = INICIO;
 
-                balasColl = 0;
-                balasRec;
-                oleada = 1;
-                balas1 = 1000;
-                Disparos disparos1[cantBalas1] = {0 };
-
-                balas2 = 500;
-                Disparos disparos2[cantBalas2] = {0 };
-
-                balas3 = 250;
-                Disparos disparos3[cantBalas3] = {0 };
-
-                Disparos recicladas[500] ={0};
-
-                dificultad = 1;
-                Jugador jugador1 = { 0 };
-
-                string respuesta = "";
-                string respuestaE = "";
-
-                poderEsc = false;
-                poderCad = false;
-                poderVid = false;
-                actPod = false;
-
-                enemigosActivos = 0;
-                Enemigos enemigos[enemigosMaximos] ={0};
-                EnemyWave wave = {static_cast<EnemyWave>(0)};
-                Enemigos asteroides[30] = {0};
-                velEne = 2;
-                navesFuera = 0;
-                fase2 = false;
-                startFase2 = false;
-                eliminaciones1 = 0;
-                eliminaciones2 = 0;
-
+                }
+            } break;
+            case PERDER:
+            {
+                reset();
                 // Press enter to return to INICIO screen
                 if (IsKeyPressed(KEY_ENTER) || IsGestureDetected(GESTURE_TAP))
                 {
@@ -1399,7 +1437,6 @@ int main(){
         {
             case INICIO:
             {
-                // TODO: Draw INICIO screen here!
                 DrawTexture(fondoI, 0, 0, RAYWHITE);
                 DrawRectangleRec(boton1, PURPLE);
                 DrawText("Fácil", boton1.x + 50, boton1.y + 15, 20, WHITE);
@@ -1410,8 +1447,6 @@ int main(){
             } break;
             case ESTRATEGIAS:
             {
-
-                // TODO: Draw ESTRATEGIAS screen here!
                 DrawTexture(fondoS, 0, 0, RAYWHITE);
                 DrawRectangleRec(strat1, WHITE);
                 DrawText("Escudo", strat1.x + 37, strat1.y + 15, 20, BLACK);
@@ -1425,7 +1460,6 @@ int main(){
 
             case GAMEPLAY:
             {
-                // TODO: Draw GAMEPLAY screen here!
                 DrawRectangle(0,0,screenWidth,screenHeight,BLACK);
 
                 DrawTexture(frames[currentFrame], 0, 50, RAYWHITE);
@@ -1517,13 +1551,16 @@ int main(){
                 DrawText(TextFormat("%01i", oleada), 400, 10, 30, GRAY);
 
             } break;
-            case ENDING:
+            case GANAR:
             {
-                // TODO: Draw ENDING screen here!
+                DrawRectangle(0,0,screenWidth,screenHeight,BLACK);
+                DrawTexture(win, 0, 0, RAYWHITE);
 
-                DrawRectangle(0, 0, screenWidth, screenHeight, BLUE);
-                DrawText("ENDING SCREEN", 20, 20, 40, DARKBLUE);
-                DrawText("PRESS ENTER or TAP to RETURN to INICIO SCREEN", 120, 220, 20, DARKBLUE);
+            } break;
+            case PERDER:
+            {
+                DrawRectangle(0,0,screenWidth,screenHeight,BLACK);
+                DrawTexture(lose, 0, 0, RAYWHITE);
 
             } break;
             default: break;
@@ -1536,13 +1573,24 @@ int main(){
 
     // De-Initialization
     //--------------------------------------------------------------------------------------
-
-    // TODO: Unload all loaded data (textures, fonts, audio) here!
+    UnloadTexture(icoVidas);
     UnloadTexture(navecita);
     UnloadTexture(fondoI);
     UnloadTexture(fondoS);
+    UnloadTexture(fondoG);
+    UnloadTexture(icoMun);
+    UnloadTexture(munRec);
+    UnloadTexture(enemigos1);
+    UnloadTexture(enemigos2);
+    UnloadTexture(eli1);
+    UnloadTexture(eli2);
+    UnloadTexture(asteroide);
+    UnloadTexture(win);
+    UnloadTexture(lose);
+
     StopMusicStream(music);
     UnloadMusicStream(music);
+
 
     // Liberar la memoria de las texturas
     for (int i = 0; i < 24; i++)
