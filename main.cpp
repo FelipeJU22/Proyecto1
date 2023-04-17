@@ -86,8 +86,8 @@ static int balasColl = 0;
 static int balasRec;
 static int oleada = 1;
 
-static const int cantBalas1 = 10;
-static int balas1 = 10;
+static const int cantBalas1 = 1000;
+static int balas1 = 1000;
 static Disparos disparos1[cantBalas1] = {0 };
 
 static const int cantBalas2 = 500;
@@ -542,6 +542,7 @@ static Lista *A = new Lista();
 
 void enviar_mensaje_arduino(int dato){
     boost::asio::write(port, boost::asio::buffer(&dato, sizeof(dato)));
+    cout<<"Dato: "<<dato<<endl;
 }
 
 void reset(void){
@@ -741,7 +742,6 @@ void actJuego(void){
         const char *Nave = Poder.child("Nave").text().get();
         const char *NaveDown = Poder.child("NaveDown").text().get();
         const char *NaveUp = Poder.child("NaveUp").text().get();
-        cantVidas = stoi(Vida);
         nave = Nave;
         naveDown = NaveDown;
         naveUp = NaveUp;
@@ -906,7 +906,6 @@ void actJuego(void){
                                 }
                                 enemigos[j].posEnex = GetRandomValue(screenWidth, screenWidth + 3000);
                                 enemigos[j].posEney = GetRandomValue(50, 350);
-                                //enemigos[j].active = false;
                             }
                         }
                     }
@@ -947,7 +946,7 @@ void actJuego(void){
                         }
                     }
                     for(int x=0; x<5;x++){
-                        if(abs(disparos1[i].rec.x+10-asteroides[x].posEnex-19)<=12 and abs(disparos1[i].rec.y+2-asteroides[x].posEney-17)<=12){
+                        if(abs(disparos2[i].rec.x+10-asteroides[x].posEnex-19)<=12 and abs(disparos2[i].rec.y+2-asteroides[x].posEney-17)<=12){
                             disparos2[i].rec.x = -1000;
                             asteroides[x].posEnex = GetRandomValue(screenWidth, screenWidth + 3000);
                             asteroides[x].posEney = GetRandomValue(50, 330);
@@ -981,7 +980,7 @@ void actJuego(void){
                         }
                     }
                     for(int x=0; x<5;x++){
-                        if(abs(disparos1[i].rec.x+10-asteroides[x].posEnex-19)<=12 and abs(disparos1[i].rec.y+2-asteroides[x].posEney-17)<=12){
+                        if(abs(disparos3[i].rec.x+10-asteroides[x].posEnex-19)<=12 and abs(disparos3[i].rec.y+2-asteroides[x].posEney-17)<=12){
                             disparos3[i].rec.x = -1000;
                             asteroides[x].posEnex = GetRandomValue(screenWidth, screenWidth + 3000);
                             asteroides[x].posEney = GetRandomValue(50, 330);
@@ -1033,6 +1032,8 @@ void actJuego(void){
                 }
                 enemigosActivos = oleada2;
                 oleada = 2;
+                enviar_mensaje_arduino(3);
+
                 wave = SECOND;
             }
             break;
@@ -1049,6 +1050,7 @@ void actJuego(void){
                 }
                 enemigosActivos = oleada3;
                 oleada = 3;
+                enviar_mensaje_arduino(4);
                 wave = THIRD;
             }
             break;
@@ -1065,6 +1067,7 @@ void actJuego(void){
                 }
                 enemigosActivos = oleada4;
                 oleada = 4;
+                enviar_mensaje_arduino(5);
                 wave = FOURTH;
             }
             break;
@@ -1081,6 +1084,7 @@ void actJuego(void){
                 }
                 enemigosActivos = oleada5;
                 oleada = 5;
+                enviar_mensaje_arduino(6);
                 wave = FIFTH;
             }
             break;
@@ -1099,6 +1103,7 @@ void actJuego(void){
                 if(!startFase2)startFase2=true;
                 enemigosActivos = oleada6;
                 oleada = 1;
+                enviar_mensaje_arduino(2);
                 wave = SIXTH;
             }
             break;
@@ -1115,6 +1120,7 @@ void actJuego(void){
                 }
                 enemigosActivos = oleada7;
                 oleada = 2;
+                enviar_mensaje_arduino(3);
                 wave = SEVENTH;
             }
             break;
@@ -1130,7 +1136,8 @@ void actJuego(void){
                     if (!enemigos[i].active) enemigos[i].active = true;
                 }
                 enemigosActivos = oleada8;
-                oleada = 8;
+                oleada = 3;
+                enviar_mensaje_arduino(4);
                 wave = EIGHTH;
             }
             break;
@@ -1147,6 +1154,7 @@ void actJuego(void){
                 }
                 enemigosActivos = oleada9;
                 oleada = 4;
+                enviar_mensaje_arduino(5);
                 wave = NINETH;
             }
             break;
@@ -1163,6 +1171,7 @@ void actJuego(void){
                 }
                 enemigosActivos = oleada10;
                 oleada = 5;
+                enviar_mensaje_arduino(6);
                 wave = TENTH;
             }
             break;
@@ -1338,6 +1347,7 @@ int main() {
             {
                 if (CheckCollisionPointRec(GetMousePosition(), strat1) && IsMouseButtonPressed(MOUSE_LEFT_BUTTON))
                 {
+                    enviar_mensaje_arduino(2);
                     poderEsc = true;
                     currentScreen = GAMEPLAY;
 
@@ -1352,6 +1362,7 @@ int main() {
                 }
                 if (CheckCollisionPointRec(GetMousePosition(), strat2) && IsMouseButtonPressed(MOUSE_LEFT_BUTTON))
                 {
+                    enviar_mensaje_arduino(2);
                     currentScreen = GAMEPLAY;
                     poderCad = true;
                     StopMusicStream(music);
@@ -1365,6 +1376,7 @@ int main() {
                 }
                 if (CheckCollisionPointRec(GetMousePosition(), strat3) && IsMouseButtonPressed(MOUSE_LEFT_BUTTON))
                 {
+                    enviar_mensaje_arduino(2);
                     currentScreen = GAMEPLAY;
                     pugi::xml_document doc;
                     doc.load_file("Poder_Velocidad.xml");
@@ -1384,6 +1396,7 @@ int main() {
                 }
                 if (CheckCollisionPointRec(GetMousePosition(), strat4) && IsMouseButtonPressed(MOUSE_LEFT_BUTTON))
                 {
+                    enviar_mensaje_arduino(2);
                     pugi::xml_document doc;
                     doc.load_file("Poder_Alas.xml");
                     pugi::xml_node Poderes = doc.child("Poderes");
@@ -1413,6 +1426,9 @@ int main() {
                 if (IsKeyPressed(KEY_Z)){
                     actPod = true;
                     if(poderEsc){
+                        cantVidas = stoi(Vida);
+                    }
+                    if(poderVid){
                         cantVidas = stoi(Vida);
                     }
                 }
