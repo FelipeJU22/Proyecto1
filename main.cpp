@@ -86,8 +86,8 @@ static int balasColl = 0;
 static int balasRec;
 static int oleada = 1;
 
-static const int cantBalas1 = 1000;
-static int balas1 = 1000;
+static const int cantBalas1 = 10;
+static int balas1 = 10;
 static Disparos disparos1[cantBalas1] = {0 };
 
 static const int cantBalas2 = 500;
@@ -115,7 +115,7 @@ static string Vida = "3";
 static int enemigosActivos = 0;
 static Enemigos enemigos[enemigosMaximos] ={0};
 static EnemyWave wave = {static_cast<EnemyWave>(0)};
-static Enemigos asteroides[30] = {0};
+static Enemigos asteroides[5] = {0};
 static int velEne = 2;
 static int navesFuera = 0;
 static bool fase2 = false;
@@ -127,11 +127,12 @@ static bool ganar = false;
 static const int screenWidth = 732;
 static const int screenHeight = 413;
 
-//boost::asio::io_service io;
-//boost::asio::serial_port port = boost::asio::serial_port(io, "/dev/ttyACM0");
-//boost::asio::streambuf buffer;
-//istream input_stream(&buffer);
-//static string message;
+boost::asio::io_service io;
+boost::asio::serial_port port = boost::asio::serial_port(io, "/dev/ttyACM0");
+boost::asio::streambuf buffer;
+istream input_stream(&buffer);
+
+static string message;
 
 /**
  * Clase nodo, utilizada para almacenar información
@@ -201,18 +202,30 @@ public:
      * @param puntero
      */
     int LargoLista(){
-        int cont=0;
-
-        Nodo * temp=  head;
-        if(head = nullptr){
-            return cont;
-        }else{
-            while(temp!=NULL){
-                temp=temp->siguiente;
-                cont++;
+//        int cont=0;
+//
+//        Nodo * temp=  head;
+//        if(head = nullptr){
+//            return cont;
+//        }else{
+//            while(temp!=NULL){
+//                temp=temp->siguiente;
+//                cont++;
+//            }
+//            return cont;
+//        }
+        if (head == nullptr) {
+            balasColl = 0;
+            cout << "balasColl "<< balasColl<< endl;
+            return balasColl;
+        }else {
+            for (Nodo *temp = head; temp != nullptr; temp = temp->siguiente) {
+                balasColl ++;
             }
-            return cont;
+            cout << "balasColl "<< balasColl<< endl;
+            return balasColl;
         }
+
     }
     void InsertarInicioC(Nodo *puntero) {
         if (head == nullptr) {
@@ -233,11 +246,11 @@ public:
         if (head == nullptr){}
             //cout << "No hay elementos en collector";
         else {
-            //cout<< "Collector:   ";
+            cout<< "Collector:   ";
             for (Nodo *temp = head; temp != nullptr; temp = temp->siguiente) {
-                //cout << temp << " / ";
+                cout << temp << " / ";
             }
-            //cout << endl;
+            cout << endl;
             //cout << endl;
         }
     }
@@ -361,9 +374,6 @@ public:
      * Función para eliminar dato de la lista enlazada
      * @param data
      */
-    int LargoCollector(){
-        return botadero->LargoLista();
-    }
     void EnviarCollector(int data) {
         Encuentra(data);
 
@@ -372,9 +382,9 @@ public:
                 Nodo *temp = cabeza;
                 cabeza = cabeza->siguiente;
                 botadero->InsertarInicioC(temp);
-                botadero->Mostrar();
+                //botadero->Mostrar();
                 tamaño--;
-                balasColl += 1;
+                balasColl ++;
                 balasRec = balasColl;
             } else {
                 Nodo *buscador = cabeza;
@@ -386,7 +396,7 @@ public:
 
                 prev->siguiente = buscador->siguiente; // prev->nextPtr = prev->nextPtr->nextPtr;
                 botadero->InsertarInicioC(buscador);
-                botadero->Mostrar();
+                //botadero->Mostrar();
                 tamaño--;
             }
         } else{
@@ -529,6 +539,11 @@ static Lista *A = new Lista();
 //
 //    }
 //}
+
+void enviar_mensaje_arduino(int dato){
+    boost::asio::write(port, boost::asio::buffer(&dato, sizeof(dato)));
+}
+
 void reset(void){
     cadencia = 0;
     rate = 1;
@@ -572,7 +587,7 @@ void reset(void){
     enemigosActivos = 0;
     Enemigos enemigos[enemigosMaximos] ={0};
     EnemyWave wave = {static_cast<EnemyWave>(0)};
-    Enemigos asteroides[30] = {0};
+    Enemigos asteroides[5] = {0};
     velEne = 2;
     navesFuera = 0;
     fase2 = false;
@@ -580,6 +595,11 @@ void reset(void){
     eliminaciones1 = 0;
     eliminaciones2 = 0;
     ganar = false;
+//
+//    l->borrar();
+//    R->borrar();
+//    E->borrar();
+//    A->borrar();
 }
 void juego(void){
 //    arduino();
@@ -645,7 +665,7 @@ void juego(void){
         enemigos[i].active = true;
         E->InsertarFinal(i);
     }
-    for(int i = 0; i < 30; i++) {
+    for(int i = 0; i < 5; i++) {
         asteroides[i].posEnex = GetRandomValue(screenWidth, screenWidth+1000);
         asteroides[i].posEney = GetRandomValue(50, 330);
         asteroides[i].velocidad.x = 1;
@@ -871,12 +891,14 @@ void actJuego(void){
     if(dificultad == 1){
         for(int i=0; i<cantBalas1;i++) {
             if (disparos1[i].active) {
-                if (disparos1[i].rec.x <= 800) {
+                //cout<<disparos1[i].rec.x<<endl;
+                if (0<=disparos1[i].rec.x and disparos1[i].rec.x<= 800) {
                     disparos1[i].rec.x += disparos1[i].balavel.x;
+
                     for(int j=0; j<enemigosActivos;j++){
                         if(enemigos[j].active){
                             if(abs(disparos1[i].rec.x+5-enemigos[j].posEnex-10)<=10 and abs(disparos1[i].rec.y-enemigos[j].posEney-17)<=17) {
-                                balasColl--;
+                                disparos1[i].rec.x = -1000;
                                 navesFuera++;
                                 if(!fase2)eliminaciones1++;
                                 else{
@@ -888,17 +910,18 @@ void actJuego(void){
                             }
                         }
                     }
-                    for(int x=0; x<30;x++){
-                        if(abs(disparos1[i].rec.x+5-asteroides[x].posEnex-10)<=5 and abs(disparos1[i].rec.y+5-asteroides[x].posEney-5)<=10){
-                            balasColl--;
+                    for(int x=0; x<5;x++){
+                        if(abs(disparos1[i].rec.x+10-asteroides[x].posEnex-19)<=12 and abs(disparos1[i].rec.y+2-asteroides[x].posEney-17)<=12){
+                            disparos1[i].rec.x = -1000;
                             asteroides[x].posEnex = GetRandomValue(screenWidth, screenWidth + 3000);
                             asteroides[x].posEney = GetRandomValue(50, 330);
                         }
                     }
                     //l->MostrarLista();
-                } else {
+                }
+                else {
                     l->EnviarCollector(i);
-                    //l->MostrarLista();
+                    //l->botadero->Mostrar();
                 }
             }
         }
@@ -906,13 +929,13 @@ void actJuego(void){
     if(dificultad == 2){
         for(int i=0; i<cantBalas2;i++){
             if(disparos2[i].active) {
-                if (disparos2[i].rec.x <= 800) {
+                if (0<=disparos2[i].rec.x and disparos2[i].rec.x <= 800) {
                     disparos2[i].rec.x += disparos2[i].balavel.x;
                     for(int j=0; j<enemigosActivos;j++){
                         if(enemigos[j].active) {
                             if (abs(disparos2[i].rec.x + 5 - enemigos[j].posEnex - 10) <= 10 and
                                 abs(disparos2[i].rec.y + 5 - enemigos[j].posEney - 17) <= 17) {
-                                balasColl--;
+                                disparos2[i].rec.x = -1000;
                                 navesFuera++;
                                 if (!fase2)eliminaciones1++;
                                 else {
@@ -923,14 +946,14 @@ void actJuego(void){
                             }
                         }
                     }
-                    for(int x=0; x<30;x++){
-                        if(abs(disparos2[i].rec.x+5-asteroides[x].posEnex-5)<=10 and abs(disparos2[i].rec.y+5-asteroides[x].posEney-5)<=10){
-                            balasColl--;
+                    for(int x=0; x<5;x++){
+                        if(abs(disparos1[i].rec.x+10-asteroides[x].posEnex-19)<=12 and abs(disparos1[i].rec.y+2-asteroides[x].posEney-17)<=12){
+                            disparos2[i].rec.x = -1000;
                             asteroides[x].posEnex = GetRandomValue(screenWidth, screenWidth + 3000);
                             asteroides[x].posEney = GetRandomValue(50, 330);
                         }
                     }
-                } else {
+                } else{
                     l->EnviarCollector(i);
                     //l->MostrarLista();
                 }
@@ -940,13 +963,13 @@ void actJuego(void){
     if(dificultad == 3){
         for(int i=0; i<cantBalas3;i++){
             if(disparos3[i].active) {
-                if (disparos3[i].rec.x <= 800) {
+                if (0<=disparos3[i].rec.x and disparos3[i].rec.x <= 800) {
                     disparos3[i].rec.x += disparos3[i].balavel.x;
                     for(int j=0; j<enemigosActivos;j++){
                         if(enemigos[j].active) {
                             if (abs(disparos3[i].rec.x + 5 - enemigos[j].posEnex - 10) <= 10 and
                                 abs(disparos3[i].rec.y + 5 - enemigos[j].posEney - 17) <= 17) {
-                                balasColl--;
+                                disparos3[i].rec.x = -1000;
                                 navesFuera++;
                                 if (!fase2)eliminaciones1++;
                                 else {
@@ -957,14 +980,14 @@ void actJuego(void){
                             }
                         }
                     }
-                    for(int x=0; x<30;x++){
-                        if(abs(disparos3[i].rec.x+5-asteroides[x].posEnex-10)<=5 and abs(disparos3[i].rec.y+5-asteroides[x].posEney-10)<=5){
-                            balasColl--;
+                    for(int x=0; x<5;x++){
+                        if(abs(disparos1[i].rec.x+10-asteroides[x].posEnex-19)<=12 and abs(disparos1[i].rec.y+2-asteroides[x].posEney-17)<=12){
+                            disparos3[i].rec.x = -1000;
                             asteroides[x].posEnex = GetRandomValue(screenWidth, screenWidth + 3000);
                             asteroides[x].posEney = GetRandomValue(50, 330);
                         }
                     }
-                } else {
+                } else{
                     l->EnviarCollector(i);
                     //l->MostrarLista();
                 }
@@ -973,11 +996,12 @@ void actJuego(void){
     }
     for(int i=0; i<balasColl;i++){
         if(recicladas[i].active) {
-            if (recicladas[i].rec.x <= 800) {
+            if (0<=recicladas[i].rec.x and recicladas[i].rec.x <= 800) {
                 recicladas[i].rec.x += recicladas[i].balavel.x;
                 for(int j=0; j<enemigosActivos;j++){
                     if(enemigos[j].active){
                         if(abs(recicladas[i].rec.x+5-enemigos[j].posEnex-10)<=10 and abs(recicladas[i].rec.y+5-enemigos[j].posEney-10)<=20) {
+                            recicladas[i].rec.x = -100;
                             navesFuera++;
                             if(!fase2)eliminaciones1++;
                             else{
@@ -1074,7 +1098,7 @@ void actJuego(void){
                 if(!fase2)fase2=true;
                 if(!startFase2)startFase2=true;
                 enemigosActivos = oleada6;
-                oleada = 6;
+                oleada = 1;
                 wave = SIXTH;
             }
             break;
@@ -1090,7 +1114,7 @@ void actJuego(void){
                     if (!enemigos[i].active) enemigos[i].active = true;
                 }
                 enemigosActivos = oleada7;
-                oleada = 7;
+                oleada = 2;
                 wave = SEVENTH;
             }
             break;
@@ -1101,7 +1125,7 @@ void actJuego(void){
                 for(int i = 0; i < 5; i++) {
                     if(!asteroides[i].active) asteroides[i].active = true;
                 }
-                oleada = 7;
+                oleada = 3;
                 for (int i = 0; i < enemigosActivos; i++) {
                     if (!enemigos[i].active) enemigos[i].active = true;
                 }
@@ -1122,7 +1146,7 @@ void actJuego(void){
                     if (!enemigos[i].active) enemigos[i].active = true;
                 }
                 enemigosActivos = oleada9;
-                oleada = 9;
+                oleada = 4;
                 wave = NINETH;
             }
             break;
@@ -1138,7 +1162,7 @@ void actJuego(void){
                     if (!enemigos[i].active) enemigos[i].active = true;
                 }
                 enemigosActivos = oleada10;
-                oleada = 10;
+                oleada = 5;
                 wave = TENTH;
             }
             break;
@@ -1168,13 +1192,14 @@ void actJuego(void){
         if (enemigos[i].active) {
             enemigos[i].posEnex -= enemigos[i].velocidad.x;
             if (enemigos[i].posEnex < -20) {
+                enviar_mensaje_arduino(1);
                 enemigos[i].posEnex = GetRandomValue(screenWidth, screenWidth + 3000);
                 enemigos[i].posEney = GetRandomValue(50, 350);
                 //enemigos[i].active = false;
             }
         }
     }
-    for(int i = 0; i < 30; i++) {
+    for(int i = 0; i < 5; i++) {
         if(asteroides[i].active){
             asteroides[i].posEnex -= asteroides[i].velocidad.x;
             asteroides[i].posEney += asteroides[i].velocidad.y;
@@ -1534,8 +1559,9 @@ int main() {
                         }
                     }
                 }
-                for(int i = 0; i < 30; i++) {
+                for(int i = 0; i < 5; i++) {
                     if(asteroides[i].active){
+                        //DrawRectangle(asteroides[i].posEnex+7,asteroides[i].posEney+5, 24, 24 ,RED); //HITBOX ASTEROIDES
                         DrawTexture(asteroide,asteroides[i].posEnex, asteroides[i].posEney, RAYWHITE);
                     }
                 }
