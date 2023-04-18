@@ -67,6 +67,8 @@ typedef struct Disparos{
 /**
  * Variables generales para el funcionamiento del juego, como son la velocidad del jugador, la posiciÃ³n, las imagenes bases de este, etc.
  */
+
+static string Rate;
 static int cadencia = 0;
 static int rate = 1;
 static int velocity = 5;
@@ -129,10 +131,7 @@ static const int screenHeight = 413;
 
 boost::asio::io_service io;
 boost::asio::serial_port port = boost::asio::serial_port(io, "/dev/ttyACM0");
-boost::asio::streambuf buffer;
-istream input_stream(&buffer);
 
-static string message;
 
 /**
  * Clase nodo, utilizada para almacenar información
@@ -534,16 +533,57 @@ static Lista *A = new Lista();
  *
  */
 
-//void arduino(void){
-//    while(message!="a"){
-//
-//    }
-//}
+void arduino(void){
+    boost::asio::streambuf buffer;
+    boost::asio::read_until(port, buffer, "\n");
+    string message;
+    istream input_stream(&buffer);
+    getline(input_stream, message);
+    cout<<"Mensaje: "<<message<<endl;
+
+    if(message.find("1")!=string::npos){
+        rate = 1;
+        cadencia = 0;
+    }
+    if(message.find("2")!=string::npos){
+        rate = 2;
+        cadencia = 0;
+    }
+    if(message.find("3")!=string::npos){
+        rate = 3;
+        cadencia = 0;
+    }
+    if(message.find("4")!=string::npos){
+        rate = 4;
+        cadencia = 0;
+    }
+    if(message.find("5")!=string::npos){
+        if(poderCad && actPod){
+            rate = stoi(Rate);
+            cadencia = 0;
+        }
+
+    }
+    if(message.find("7")!=string::npos){
+        if(posJugy>40) {
+            posJugy -= jugador1.velocidad.y;
+            navecita = LoadTexture(naveUp);
+        }
+    }
+    if(message.find("6")!=string::npos){
+        if(posJugy<335) {
+            posJugy += jugador1.velocidad.y;
+            navecita = LoadTexture(naveDown);
+        }
+    }
+}
 
 void enviar_mensaje_arduino(int dato){
     boost::asio::write(port, boost::asio::buffer(&dato, sizeof(dato)));
-    cout<<"Dato: "<<dato<<endl;
+    //cout<<"Dato: "<<dato<<endl;
 }
+
+
 
 void reset(void){
     cadencia = 0;
@@ -684,25 +724,6 @@ void juego(void){
  */
 
 void actJuego(void){
-    if(IsKeyPressed(KEY_A)) {
-        rate = 1 ;
-        cadencia = 0;
-    }
-
-    if(IsKeyPressed(KEY_S)) {
-        rate = 2;
-        cadencia = 0;
-    }
-
-    if(IsKeyPressed(KEY_D)) {
-        rate = 3;
-        cadencia = 0;
-    }
-
-    if(IsKeyPressed(KEY_F)) {
-        rate = 4;
-        cadencia = 0;
-    }
     if(poderEsc && actPod){
         pugi::xml_document doc;
         doc.load_file("Poder_Escudo.xml");
@@ -724,14 +745,10 @@ void actJuego(void){
         const char *Nave = Poder.child("Nave").text().get();
         const char *NaveDown = Poder.child("NaveDown").text().get();
         const char *NaveUp = Poder.child("NaveUp").text().get();
-        string Rate = Poder.child("Cadencia").text().get();
+        Rate = Poder.child("Cadencia").text().get();
         nave = Nave;
         naveDown = NaveDown;
         naveUp = NaveUp;
-        if(IsKeyPressed(KEY_G)){
-            rate = stoi(Rate);
-            cadencia = 0;
-        }
     }
     if(poderVid && actPod){
         pugi::xml_document doc;
@@ -1288,7 +1305,6 @@ int main() {
     // Play music
     PlayMusicStream(music);
 
-
     Texture2D frames[24]; // Array de texturas para almacenar cada frame
     int currentFrame = 0; // Indice del frame actual
     float frameCounter = 0; // Contador para controlar la velocidad de la animacion
@@ -1304,7 +1320,7 @@ int main() {
 
     }
 ////////////////////////////////////////////////////////////////
-    SetTargetFPS(60);               // Set desired framerate (frames-per-second)
+    SetTargetFPS(120);               // Set desired framerate (frames-per-second)
     //--------------------------------------------------------------------------------------
 
     // Main game loop
@@ -1419,8 +1435,9 @@ int main() {
             } break;
             case GAMEPLAY:
             {
+
                 actualizar();
-//                boost::asio::read_until(port, buffer, "\n");
+                arduino();
 //                getline(input_stream, message);
 //                cout<<"mensaje de arduino: "<<message<<endl;
                 if (IsKeyPressed(KEY_Z)){
