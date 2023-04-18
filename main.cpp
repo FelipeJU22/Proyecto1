@@ -6,7 +6,9 @@
 #include <math.h>
 #include "pugixml-1.13/src/pugixml.cpp"
 #include <boost/asio.hpp>
-
+#include <chrono>
+#include <thread>
+#include <cstdlib>
 
 #define cantidad_max_ene 50
 /**
@@ -642,6 +644,23 @@ void reset(void){
 //    E->borrar();
 //    A->borrar();
 }
+
+void revisar(int numero, int* lista) {
+    bool encontrado = false;
+    for (int i = 0; i < 2; i++) {
+        if (lista[i] == numero) {
+            encontrado = true;
+
+            break;
+        }
+    }
+    if (!encontrado) {
+        lista[1] = lista[0];
+        lista[0] = numero;
+        this_thread::sleep_for(chrono::seconds(5));
+    }
+}
+
 void juego(void){
 //    arduino();
     enemigosActivos = oleada1;
@@ -1296,6 +1315,10 @@ int main() {
     Texture2D win = LoadTexture("imagenes/win.png");
     Texture2D lose = LoadTexture("imagenes/lose.png");
 
+
+    int* p_almacenados = (int*) malloc(2* sizeof(int));
+    p_almacenados[0] = 1;
+    p_almacenados[1] = 2;
     ///////////////////////////////////////////////////////////////////////////////////
 
     InitAudioDevice();  // Initialize audio device
@@ -1365,6 +1388,7 @@ int main() {
                 {
                     enviar_mensaje_arduino(2);
                     poderEsc = true;
+                    revisar(1, p_almacenados);
                     currentScreen = GAMEPLAY;
 
                     StopMusicStream(music);
@@ -1379,6 +1403,7 @@ int main() {
                 if (CheckCollisionPointRec(GetMousePosition(), strat2) && IsMouseButtonPressed(MOUSE_LEFT_BUTTON))
                 {
                     enviar_mensaje_arduino(2);
+                    revisar(2, p_almacenados);
                     currentScreen = GAMEPLAY;
                     poderCad = true;
                     StopMusicStream(music);
@@ -1393,6 +1418,7 @@ int main() {
                 if (CheckCollisionPointRec(GetMousePosition(), strat3) && IsMouseButtonPressed(MOUSE_LEFT_BUTTON))
                 {
                     enviar_mensaje_arduino(2);
+                    revisar(3, p_almacenados);
                     currentScreen = GAMEPLAY;
                     pugi::xml_document doc;
                     doc.load_file("Poder_Velocidad.xml");
@@ -1418,6 +1444,7 @@ int main() {
                     pugi::xml_node Poderes = doc.child("Poderes");
                     pugi::xml_node Poder = Poderes.child("Poder");
                     string Velocidad = Poder.child("Velocidad").text().get();
+                    revisar(4, p_almacenados);
                     currentScreen = GAMEPLAY;
                     velocity = stoi(Velocidad);
                     poderVid = true;
@@ -1646,6 +1673,8 @@ int main() {
     UnloadTexture(asteroide);
     UnloadTexture(win);
     UnloadTexture(lose);
+
+    free(p_almacenados);
 
     StopMusicStream(music);
     UnloadMusicStream(music);
