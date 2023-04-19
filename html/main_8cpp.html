@@ -1,0 +1,686 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "https://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="es">
+<head>
+<meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=11"/>
+<meta name="generator" content="Doxygen 1.9.6"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>BattleSpace: Referencia del Archivo main.cpp</title>
+<link href="tabs.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="jquery.js"></script>
+<script type="text/javascript" src="dynsections.js"></script>
+<link href="search/search.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="search/searchdata.js"></script>
+<script type="text/javascript" src="search/search.js"></script>
+<link href="doxygen.css" rel="stylesheet" type="text/css" />
+</head>
+<body>
+<div id="top"><!-- do not remove this div, it is closed by doxygen! -->
+<div id="titlearea">
+<table cellspacing="0" cellpadding="0">
+ <tbody>
+ <tr id="projectrow">
+  <td id="projectalign">
+   <div id="projectname">BattleSpace<span id="projectnumber">&#160;1.0</span>
+   </div>
+   <div id="projectbrief">Proyecto Programado I_Datos II</div>
+  </td>
+ </tr>
+ </tbody>
+</table>
+</div>
+<!-- end header part -->
+<!-- Generado por Doxygen 1.9.6 -->
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+var searchBox = new SearchBox("searchBox", "search/",'.html');
+/* @license-end */
+</script>
+<script type="text/javascript" src="menudata.js"></script>
+<script type="text/javascript" src="menu.js"></script>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+$(function() {
+  initMenu('',true,false,'search.php','Buscar');
+  $(document).ready(function() { init_search(); });
+});
+/* @license-end */
+</script>
+<div id="main-nav"></div>
+<!-- window showing the filter options -->
+<div id="MSearchSelectWindow"
+     onmouseover="return searchBox.OnSearchSelectShow()"
+     onmouseout="return searchBox.OnSearchSelectHide()"
+     onkeydown="return searchBox.OnSearchSelectKey(event)">
+</div>
+
+<!-- iframe showing the search results (closed by default) -->
+<div id="MSearchResultsWindow">
+<div id="MSearchResults">
+<div class="SRPage">
+<div id="SRIndex">
+<div id="SRResults"></div>
+<div class="SRStatus" id="Loading">Cargando...</div>
+<div class="SRStatus" id="Searching">Buscando...</div>
+<div class="SRStatus" id="NoMatches">Nada coincide</div>
+</div>
+</div>
+</div>
+</div>
+
+</div><!-- top -->
+<div class="header">
+  <div class="summary">
+<a href="#nested-classes">Clases</a> &#124;
+<a href="#define-members">defines</a> &#124;
+<a href="#typedef-members">typedefs</a> &#124;
+<a href="#enum-members">Enumeraciones</a> &#124;
+<a href="#func-members">Funciones</a> &#124;
+<a href="#var-members">Variables</a>  </div>
+  <div class="headertitle"><div class="title">Referencia del Archivo main.cpp</div></div>
+</div><!--header-->
+<div class="contents">
+<div class="textblock"><code>#include &lt;iostream&gt;</code><br />
+<code>#include &lt;raylib.h&gt;</code><br />
+<code>#include &lt;math.h&gt;</code><br />
+<code>#include &quot;pugixml-1.13/src/pugixml.cpp&quot;</code><br />
+<code>#include &lt;boost/asio.hpp&gt;</code><br />
+<code>#include &lt;chrono&gt;</code><br />
+<code>#include &lt;thread&gt;</code><br />
+<code>#include &lt;cstdlib&gt;</code><br />
+</div><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="nested-classes" name="nested-classes"></a>
+Clases</h2></td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="struct_jugador.html">Jugador</a></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="struct_enemigos.html">Enemigos</a></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="struct_disparos.html">Disparos</a></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_nodo.html">Nodo</a></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_collector.html">Collector</a></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_lista.html">Lista</a></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="define-members" name="define-members"></a>
+defines</h2></td></tr>
+<tr class="memitem:a2c6bec9293a18b2b99f24859c46af6d0"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="main_8cpp.html#a2c6bec9293a18b2b99f24859c46af6d0">cantidad_max_ene</a>&#160;&#160;&#160;50</td></tr>
+<tr class="separator:a2c6bec9293a18b2b99f24859c46af6d0"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aa12e43d26ee341ae77f7c288a2f5cf2c"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="main_8cpp.html#aa12e43d26ee341ae77f7c288a2f5cf2c">oleada1</a>&#160;&#160;&#160;4</td></tr>
+<tr class="separator:aa12e43d26ee341ae77f7c288a2f5cf2c"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a9338c51e1431f2459557fcd80c3d8842"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="main_8cpp.html#a9338c51e1431f2459557fcd80c3d8842">oleada2</a>&#160;&#160;&#160;6</td></tr>
+<tr class="separator:a9338c51e1431f2459557fcd80c3d8842"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ae4f34d0830860f45d82130244d88fe0d"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="main_8cpp.html#ae4f34d0830860f45d82130244d88fe0d">oleada3</a>&#160;&#160;&#160;10</td></tr>
+<tr class="separator:ae4f34d0830860f45d82130244d88fe0d"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a06e5a417b621b4ff6c8851ea8948488b"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="main_8cpp.html#a06e5a417b621b4ff6c8851ea8948488b">oleada4</a>&#160;&#160;&#160;13</td></tr>
+<tr class="separator:a06e5a417b621b4ff6c8851ea8948488b"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a7b899983a0086801c896ef1b223a6cfc"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="main_8cpp.html#a7b899983a0086801c896ef1b223a6cfc">oleada5</a>&#160;&#160;&#160;17</td></tr>
+<tr class="separator:a7b899983a0086801c896ef1b223a6cfc"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aa3de8b1bd249666ae2bc59d43b22dc5f"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="main_8cpp.html#aa3de8b1bd249666ae2bc59d43b22dc5f">oleada6</a>&#160;&#160;&#160;5</td></tr>
+<tr class="separator:aa3de8b1bd249666ae2bc59d43b22dc5f"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a50b8df79982aa5d314bf6b9971f8155e"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="main_8cpp.html#a50b8df79982aa5d314bf6b9971f8155e">oleada7</a>&#160;&#160;&#160;10</td></tr>
+<tr class="separator:a50b8df79982aa5d314bf6b9971f8155e"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a22c7372510d8b42dd5aab3ba846acf05"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="main_8cpp.html#a22c7372510d8b42dd5aab3ba846acf05">oleada8</a>&#160;&#160;&#160;15</td></tr>
+<tr class="separator:a22c7372510d8b42dd5aab3ba846acf05"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:abaadd0a161e4d7e1f58e087cf010c8a5"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="main_8cpp.html#abaadd0a161e4d7e1f58e087cf010c8a5">oleada9</a>&#160;&#160;&#160;20</td></tr>
+<tr class="separator:abaadd0a161e4d7e1f58e087cf010c8a5"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a34174a594dec410001117153a3a74d94"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="main_8cpp.html#a34174a594dec410001117153a3a74d94">oleada10</a>&#160;&#160;&#160;25</td></tr>
+<tr class="separator:a34174a594dec410001117153a3a74d94"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a559890f73b8c30e4a135dcc2379765c3"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="main_8cpp.html#a559890f73b8c30e4a135dcc2379765c3">enemigosMaximos</a>&#160;&#160;&#160;125</td></tr>
+<tr class="separator:a559890f73b8c30e4a135dcc2379765c3"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="typedef-members" name="typedef-members"></a>
+typedefs</h2></td></tr>
+<tr class="memitem:a4784cee37448bfc0976f6966ca192df3"><td class="memItemLeft" align="right" valign="top">typedef enum <a class="el" href="main_8cpp.html#a74fa4be11c0eaf0601894bed6ed01402">GameScreen</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="main_8cpp.html#a4784cee37448bfc0976f6966ca192df3">GameScreen</a></td></tr>
+<tr class="separator:a4784cee37448bfc0976f6966ca192df3"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:abbac1e97103509836ee6110874e2f39f"><td class="memItemLeft" align="right" valign="top">typedef struct <a class="el" href="struct_jugador.html">Jugador</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="main_8cpp.html#abbac1e97103509836ee6110874e2f39f">Jugador</a></td></tr>
+<tr class="separator:abbac1e97103509836ee6110874e2f39f"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a34ae8cd5932c97d303ea369e8e1a65f2"><td class="memItemLeft" align="right" valign="top">typedef struct <a class="el" href="struct_enemigos.html">Enemigos</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="main_8cpp.html#a34ae8cd5932c97d303ea369e8e1a65f2">Enemigos</a></td></tr>
+<tr class="separator:a34ae8cd5932c97d303ea369e8e1a65f2"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a57e430be993f31e947d411ad92715f49"><td class="memItemLeft" align="right" valign="top">typedef struct <a class="el" href="struct_disparos.html">Disparos</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="main_8cpp.html#a57e430be993f31e947d411ad92715f49">Disparos</a></td></tr>
+<tr class="separator:a57e430be993f31e947d411ad92715f49"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="enum-members" name="enum-members"></a>
+Enumeraciones</h2></td></tr>
+<tr class="memitem:a74fa4be11c0eaf0601894bed6ed01402"><td class="memItemLeft" align="right" valign="top">enum &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="main_8cpp.html#a74fa4be11c0eaf0601894bed6ed01402">GameScreen</a> { <br />
+&#160;&#160;<a class="el" href="main_8cpp.html#a74fa4be11c0eaf0601894bed6ed01402af6e4a90a4a7e46c98a5a12b965fb8354">INICIO</a>
+, <a class="el" href="main_8cpp.html#a74fa4be11c0eaf0601894bed6ed01402ad101dadcffadf4a8b93074ae0c181a67">ESTRATEGIAS</a>
+, <a class="el" href="main_8cpp.html#a74fa4be11c0eaf0601894bed6ed01402a651a3f73e693ca8b6f97bf6cfdc8d5be">GAMEPLAY</a>
+, <a class="el" href="main_8cpp.html#a74fa4be11c0eaf0601894bed6ed01402a9d5a774c8474e7e844dca02b78ce8bfe">GANAR</a>
+, <br />
+&#160;&#160;<a class="el" href="main_8cpp.html#a74fa4be11c0eaf0601894bed6ed01402a65a49d3fe757975af5f0ab9b3d1f23a9">PERDER</a>
+<br />
+ }</td></tr>
+<tr class="separator:a74fa4be11c0eaf0601894bed6ed01402"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a5dfad99d10ef0e8d6981e717b89c1a2a"><td class="memItemLeft" align="right" valign="top">enum &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="main_8cpp.html#a5dfad99d10ef0e8d6981e717b89c1a2a">EnemyWave</a> { <br />
+&#160;&#160;<a class="el" href="main_8cpp.html#a5dfad99d10ef0e8d6981e717b89c1a2aa6a7856cca1833641e731676636b193f1">FIRST</a> = 0
+, <a class="el" href="main_8cpp.html#a5dfad99d10ef0e8d6981e717b89c1a2aa7cb36ff0a80f238d5b987d9250d369e3">SECOND</a>
+, <a class="el" href="main_8cpp.html#a5dfad99d10ef0e8d6981e717b89c1a2aac88bc782686ee422ba7a5cb3bb3bf320">THIRD</a>
+, <a class="el" href="main_8cpp.html#a5dfad99d10ef0e8d6981e717b89c1a2aa519a1e3fe5842163710362d4d04e1689">FOURTH</a>
+, <br />
+&#160;&#160;<a class="el" href="main_8cpp.html#a5dfad99d10ef0e8d6981e717b89c1a2aadea035b9dc543921645551849e9921ea">FIFTH</a>
+, <a class="el" href="main_8cpp.html#a5dfad99d10ef0e8d6981e717b89c1a2aa50fdfc53be233377f97522fc2758e6b9">SIXTH</a>
+, <a class="el" href="main_8cpp.html#a5dfad99d10ef0e8d6981e717b89c1a2aafaba28e0a9645123c5c5b98ba4aa4587">SEVENTH</a>
+, <a class="el" href="main_8cpp.html#a5dfad99d10ef0e8d6981e717b89c1a2aa32c5aa9e614186c7800cf420150bb8d5">EIGHTH</a>
+, <br />
+&#160;&#160;<a class="el" href="main_8cpp.html#a5dfad99d10ef0e8d6981e717b89c1a2aa29dba9e67e9637288998abc5552e605a">NINETH</a>
+, <a class="el" href="main_8cpp.html#a5dfad99d10ef0e8d6981e717b89c1a2aad76bb2c83ab028100929f23311dcbbe0">TENTH</a>
+<br />
+ }</td></tr>
+<tr class="separator:a5dfad99d10ef0e8d6981e717b89c1a2a"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="func-members" name="func-members"></a>
+Funciones</h2></td></tr>
+<tr class="memitem:a0af933e8e671f9254c526356617eed69"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="main_8cpp.html#a0af933e8e671f9254c526356617eed69">arduino</a> (void)</td></tr>
+<tr class="separator:a0af933e8e671f9254c526356617eed69"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a5def98da532a652cd3a00f0d930fc7a7"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="main_8cpp.html#a5def98da532a652cd3a00f0d930fc7a7">enviar_mensaje_arduino</a> (int dato)</td></tr>
+<tr class="separator:a5def98da532a652cd3a00f0d930fc7a7"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a3aea9deb2a0bfea9ff05a898f4822e31"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="main_8cpp.html#a3aea9deb2a0bfea9ff05a898f4822e31">reset</a> (void)</td></tr>
+<tr class="separator:a3aea9deb2a0bfea9ff05a898f4822e31"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a480593bbd15fcdfac229605750312037"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="main_8cpp.html#a480593bbd15fcdfac229605750312037">revisar</a> (int numero, int *lista)</td></tr>
+<tr class="separator:a480593bbd15fcdfac229605750312037"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a46e7712e7f90029f9fb3c3c301891bbd"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="main_8cpp.html#a46e7712e7f90029f9fb3c3c301891bbd">juego</a> (void)</td></tr>
+<tr class="separator:a46e7712e7f90029f9fb3c3c301891bbd"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a7513159a69d7e1bab9084433dcad353d"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="main_8cpp.html#a7513159a69d7e1bab9084433dcad353d">actJuego</a> (void)</td></tr>
+<tr class="separator:a7513159a69d7e1bab9084433dcad353d"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:acf9c5401e950ce75943dfe8a7e3f1e54"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="main_8cpp.html#acf9c5401e950ce75943dfe8a7e3f1e54">actualizar</a> (void)</td></tr>
+<tr class="separator:acf9c5401e950ce75943dfe8a7e3f1e54"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ae66f6b31b5ad750f1fe042a706a4e3d4"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="main_8cpp.html#ae66f6b31b5ad750f1fe042a706a4e3d4">main</a> ()</td></tr>
+<tr class="separator:ae66f6b31b5ad750f1fe042a706a4e3d4"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="var-members" name="var-members"></a>
+Variables</h2></td></tr>
+<tr class="memitem:a6cb58f5005bc0dc29bc81a398d7b3ef6"><td class="memItemLeft" align="right" valign="top">boost::asio::io_service&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="main_8cpp.html#a6cb58f5005bc0dc29bc81a398d7b3ef6">io</a></td></tr>
+<tr class="separator:a6cb58f5005bc0dc29bc81a398d7b3ef6"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a4acb6795fb66f37b3c90b24474973581"><td class="memItemLeft" align="right" valign="top">boost::asio::serial_port&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="main_8cpp.html#a4acb6795fb66f37b3c90b24474973581">port</a> = boost::asio::serial_port(<a class="el" href="main_8cpp.html#a6cb58f5005bc0dc29bc81a398d7b3ef6">io</a>, &quot;/dev/ttyACM0&quot;)</td></tr>
+<tr class="separator:a4acb6795fb66f37b3c90b24474973581"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table>
+<h2 class="groupheader">Documentación de los 'defines'</h2>
+<a id="a2c6bec9293a18b2b99f24859c46af6d0" name="a2c6bec9293a18b2b99f24859c46af6d0"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a2c6bec9293a18b2b99f24859c46af6d0">&#9670;&#160;</a></span>cantidad_max_ene</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define cantidad_max_ene&#160;&#160;&#160;50</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p>Librerias externas utilizadas </p>
+
+</div>
+</div>
+<a id="a559890f73b8c30e4a135dcc2379765c3" name="a559890f73b8c30e4a135dcc2379765c3"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a559890f73b8c30e4a135dcc2379765c3">&#9670;&#160;</a></span>enemigosMaximos</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define enemigosMaximos&#160;&#160;&#160;125</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="aa12e43d26ee341ae77f7c288a2f5cf2c" name="aa12e43d26ee341ae77f7c288a2f5cf2c"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aa12e43d26ee341ae77f7c288a2f5cf2c">&#9670;&#160;</a></span>oleada1</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define oleada1&#160;&#160;&#160;4</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a34174a594dec410001117153a3a74d94" name="a34174a594dec410001117153a3a74d94"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a34174a594dec410001117153a3a74d94">&#9670;&#160;</a></span>oleada10</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define oleada10&#160;&#160;&#160;25</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a9338c51e1431f2459557fcd80c3d8842" name="a9338c51e1431f2459557fcd80c3d8842"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a9338c51e1431f2459557fcd80c3d8842">&#9670;&#160;</a></span>oleada2</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define oleada2&#160;&#160;&#160;6</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="ae4f34d0830860f45d82130244d88fe0d" name="ae4f34d0830860f45d82130244d88fe0d"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ae4f34d0830860f45d82130244d88fe0d">&#9670;&#160;</a></span>oleada3</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define oleada3&#160;&#160;&#160;10</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a06e5a417b621b4ff6c8851ea8948488b" name="a06e5a417b621b4ff6c8851ea8948488b"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a06e5a417b621b4ff6c8851ea8948488b">&#9670;&#160;</a></span>oleada4</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define oleada4&#160;&#160;&#160;13</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a7b899983a0086801c896ef1b223a6cfc" name="a7b899983a0086801c896ef1b223a6cfc"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a7b899983a0086801c896ef1b223a6cfc">&#9670;&#160;</a></span>oleada5</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define oleada5&#160;&#160;&#160;17</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="aa3de8b1bd249666ae2bc59d43b22dc5f" name="aa3de8b1bd249666ae2bc59d43b22dc5f"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aa3de8b1bd249666ae2bc59d43b22dc5f">&#9670;&#160;</a></span>oleada6</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define oleada6&#160;&#160;&#160;5</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a50b8df79982aa5d314bf6b9971f8155e" name="a50b8df79982aa5d314bf6b9971f8155e"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a50b8df79982aa5d314bf6b9971f8155e">&#9670;&#160;</a></span>oleada7</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define oleada7&#160;&#160;&#160;10</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a22c7372510d8b42dd5aab3ba846acf05" name="a22c7372510d8b42dd5aab3ba846acf05"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a22c7372510d8b42dd5aab3ba846acf05">&#9670;&#160;</a></span>oleada8</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define oleada8&#160;&#160;&#160;15</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="abaadd0a161e4d7e1f58e087cf010c8a5" name="abaadd0a161e4d7e1f58e087cf010c8a5"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#abaadd0a161e4d7e1f58e087cf010c8a5">&#9670;&#160;</a></span>oleada9</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define oleada9&#160;&#160;&#160;20</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<h2 class="groupheader">Documentación de los 'typedefs'</h2>
+<a id="a57e430be993f31e947d411ad92715f49" name="a57e430be993f31e947d411ad92715f49"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a57e430be993f31e947d411ad92715f49">&#9670;&#160;</a></span>Disparos</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">typedef struct <a class="el" href="struct_disparos.html">Disparos</a> <a class="el" href="struct_disparos.html">Disparos</a></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p>Estructura utilizada para los proyectiles aliados </p>
+
+</div>
+</div>
+<a id="a34ae8cd5932c97d303ea369e8e1a65f2" name="a34ae8cd5932c97d303ea369e8e1a65f2"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a34ae8cd5932c97d303ea369e8e1a65f2">&#9670;&#160;</a></span>Enemigos</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">typedef struct <a class="el" href="struct_enemigos.html">Enemigos</a> <a class="el" href="struct_enemigos.html">Enemigos</a></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p>Estructura utilizada para los enemigos, </p>
+
+</div>
+</div>
+<a id="a4784cee37448bfc0976f6966ca192df3" name="a4784cee37448bfc0976f6966ca192df3"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a4784cee37448bfc0976f6966ca192df3">&#9670;&#160;</a></span>GameScreen</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">typedef enum <a class="el" href="main_8cpp.html#a74fa4be11c0eaf0601894bed6ed01402">GameScreen</a> <a class="el" href="main_8cpp.html#a74fa4be11c0eaf0601894bed6ed01402">GameScreen</a></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p>Se setean las distintas ventanas que se van a utilizar en el juego </p>
+
+</div>
+</div>
+<a id="abbac1e97103509836ee6110874e2f39f" name="abbac1e97103509836ee6110874e2f39f"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#abbac1e97103509836ee6110874e2f39f">&#9670;&#160;</a></span>Jugador</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">typedef struct <a class="el" href="struct_jugador.html">Jugador</a> <a class="el" href="struct_jugador.html">Jugador</a></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p>Estructura utilizada para el jugador, se le da velocidad </p>
+
+</div>
+</div>
+<h2 class="groupheader">Documentación de las enumeraciones</h2>
+<a id="a5dfad99d10ef0e8d6981e717b89c1a2a" name="a5dfad99d10ef0e8d6981e717b89c1a2a"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a5dfad99d10ef0e8d6981e717b89c1a2a">&#9670;&#160;</a></span>EnemyWave</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">enum <a class="el" href="main_8cpp.html#a5dfad99d10ef0e8d6981e717b89c1a2a">EnemyWave</a></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<table class="fieldtable">
+<tr><th colspan="2">Valores de enumeraciones</th></tr><tr><td class="fieldname"><a id="a5dfad99d10ef0e8d6981e717b89c1a2aa6a7856cca1833641e731676636b193f1" name="a5dfad99d10ef0e8d6981e717b89c1a2aa6a7856cca1833641e731676636b193f1"></a>FIRST&#160;</td><td class="fielddoc"></td></tr>
+<tr><td class="fieldname"><a id="a5dfad99d10ef0e8d6981e717b89c1a2aa7cb36ff0a80f238d5b987d9250d369e3" name="a5dfad99d10ef0e8d6981e717b89c1a2aa7cb36ff0a80f238d5b987d9250d369e3"></a>SECOND&#160;</td><td class="fielddoc"></td></tr>
+<tr><td class="fieldname"><a id="a5dfad99d10ef0e8d6981e717b89c1a2aac88bc782686ee422ba7a5cb3bb3bf320" name="a5dfad99d10ef0e8d6981e717b89c1a2aac88bc782686ee422ba7a5cb3bb3bf320"></a>THIRD&#160;</td><td class="fielddoc"></td></tr>
+<tr><td class="fieldname"><a id="a5dfad99d10ef0e8d6981e717b89c1a2aa519a1e3fe5842163710362d4d04e1689" name="a5dfad99d10ef0e8d6981e717b89c1a2aa519a1e3fe5842163710362d4d04e1689"></a>FOURTH&#160;</td><td class="fielddoc"></td></tr>
+<tr><td class="fieldname"><a id="a5dfad99d10ef0e8d6981e717b89c1a2aadea035b9dc543921645551849e9921ea" name="a5dfad99d10ef0e8d6981e717b89c1a2aadea035b9dc543921645551849e9921ea"></a>FIFTH&#160;</td><td class="fielddoc"></td></tr>
+<tr><td class="fieldname"><a id="a5dfad99d10ef0e8d6981e717b89c1a2aa50fdfc53be233377f97522fc2758e6b9" name="a5dfad99d10ef0e8d6981e717b89c1a2aa50fdfc53be233377f97522fc2758e6b9"></a>SIXTH&#160;</td><td class="fielddoc"></td></tr>
+<tr><td class="fieldname"><a id="a5dfad99d10ef0e8d6981e717b89c1a2aafaba28e0a9645123c5c5b98ba4aa4587" name="a5dfad99d10ef0e8d6981e717b89c1a2aafaba28e0a9645123c5c5b98ba4aa4587"></a>SEVENTH&#160;</td><td class="fielddoc"></td></tr>
+<tr><td class="fieldname"><a id="a5dfad99d10ef0e8d6981e717b89c1a2aa32c5aa9e614186c7800cf420150bb8d5" name="a5dfad99d10ef0e8d6981e717b89c1a2aa32c5aa9e614186c7800cf420150bb8d5"></a>EIGHTH&#160;</td><td class="fielddoc"></td></tr>
+<tr><td class="fieldname"><a id="a5dfad99d10ef0e8d6981e717b89c1a2aa29dba9e67e9637288998abc5552e605a" name="a5dfad99d10ef0e8d6981e717b89c1a2aa29dba9e67e9637288998abc5552e605a"></a>NINETH&#160;</td><td class="fielddoc"></td></tr>
+<tr><td class="fieldname"><a id="a5dfad99d10ef0e8d6981e717b89c1a2aad76bb2c83ab028100929f23311dcbbe0" name="a5dfad99d10ef0e8d6981e717b89c1a2aad76bb2c83ab028100929f23311dcbbe0"></a>TENTH&#160;</td><td class="fielddoc"></td></tr>
+</table>
+
+</div>
+</div>
+<a id="a74fa4be11c0eaf0601894bed6ed01402" name="a74fa4be11c0eaf0601894bed6ed01402"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a74fa4be11c0eaf0601894bed6ed01402">&#9670;&#160;</a></span>GameScreen</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">enum <a class="el" href="main_8cpp.html#a74fa4be11c0eaf0601894bed6ed01402">GameScreen</a></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p>Se setean las distintas ventanas que se van a utilizar en el juego </p>
+<table class="fieldtable">
+<tr><th colspan="2">Valores de enumeraciones</th></tr><tr><td class="fieldname"><a id="a74fa4be11c0eaf0601894bed6ed01402af6e4a90a4a7e46c98a5a12b965fb8354" name="a74fa4be11c0eaf0601894bed6ed01402af6e4a90a4a7e46c98a5a12b965fb8354"></a>INICIO&#160;</td><td class="fielddoc"></td></tr>
+<tr><td class="fieldname"><a id="a74fa4be11c0eaf0601894bed6ed01402ad101dadcffadf4a8b93074ae0c181a67" name="a74fa4be11c0eaf0601894bed6ed01402ad101dadcffadf4a8b93074ae0c181a67"></a>ESTRATEGIAS&#160;</td><td class="fielddoc"></td></tr>
+<tr><td class="fieldname"><a id="a74fa4be11c0eaf0601894bed6ed01402a651a3f73e693ca8b6f97bf6cfdc8d5be" name="a74fa4be11c0eaf0601894bed6ed01402a651a3f73e693ca8b6f97bf6cfdc8d5be"></a>GAMEPLAY&#160;</td><td class="fielddoc"></td></tr>
+<tr><td class="fieldname"><a id="a74fa4be11c0eaf0601894bed6ed01402a9d5a774c8474e7e844dca02b78ce8bfe" name="a74fa4be11c0eaf0601894bed6ed01402a9d5a774c8474e7e844dca02b78ce8bfe"></a>GANAR&#160;</td><td class="fielddoc"></td></tr>
+<tr><td class="fieldname"><a id="a74fa4be11c0eaf0601894bed6ed01402a65a49d3fe757975af5f0ab9b3d1f23a9" name="a74fa4be11c0eaf0601894bed6ed01402a65a49d3fe757975af5f0ab9b3d1f23a9"></a>PERDER&#160;</td><td class="fielddoc"></td></tr>
+</table>
+
+</div>
+</div>
+<h2 class="groupheader">Documentación de las funciones</h2>
+<a id="a7513159a69d7e1bab9084433dcad353d" name="a7513159a69d7e1bab9084433dcad353d"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a7513159a69d7e1bab9084433dcad353d">&#9670;&#160;</a></span>actJuego()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void actJuego </td>
+          <td>(</td>
+          <td class="paramtype">void&#160;</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p>Función la cual le da al jugador los límites de la pantalla, su cambio de sprites, la posibilidad de disparar a cierta cadencia, además de configurarla dependiendo de las teclas que presiona el jugador y tener cierta munición. </p>
+<p>Código oleadas</p>
+<p>Termina oleadas</p>
+
+</div>
+</div>
+<a id="acf9c5401e950ce75943dfe8a7e3f1e54" name="acf9c5401e950ce75943dfe8a7e3f1e54"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#acf9c5401e950ce75943dfe8a7e3f1e54">&#9670;&#160;</a></span>actualizar()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void actualizar </td>
+          <td>(</td>
+          <td class="paramtype">void&#160;</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p>Función llamada cada frame, para revisar el funcionamiento del jugador </p>
+
+</div>
+</div>
+<a id="a0af933e8e671f9254c526356617eed69" name="a0af933e8e671f9254c526356617eed69"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a0af933e8e671f9254c526356617eed69">&#9670;&#160;</a></span>arduino()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void arduino </td>
+          <td>(</td>
+          <td class="paramtype">void&#160;</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p>Función utilizada para la comunicación entre c++ y arduino. Recibe los mensajes y los traduce en acciones dentro del juego </p>
+
+</div>
+</div>
+<a id="a5def98da532a652cd3a00f0d930fc7a7" name="a5def98da532a652cd3a00f0d930fc7a7"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a5def98da532a652cd3a00f0d930fc7a7">&#9670;&#160;</a></span>enviar_mensaje_arduino()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void enviar_mensaje_arduino </td>
+          <td>(</td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>dato</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p>Función utilizada para la comunicación entre c++ y arduino. Envia mensajes al arduino </p>
+
+</div>
+</div>
+<a id="a46e7712e7f90029f9fb3c3c301891bbd" name="a46e7712e7f90029f9fb3c3c301891bbd"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a46e7712e7f90029f9fb3c3c301891bbd">&#9670;&#160;</a></span>juego()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void juego </td>
+          <td>(</td>
+          <td class="paramtype">void&#160;</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p>FUnción utilizada para activar enemigos, al jugador, los disparos, setear las diferencias entre dificultades, generar enemigos, etc. </p>
+
+</div>
+</div>
+<a id="ae66f6b31b5ad750f1fe042a706a4e3d4" name="ae66f6b31b5ad750f1fe042a706a4e3d4"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ae66f6b31b5ad750f1fe042a706a4e3d4">&#9670;&#160;</a></span>main()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">int main </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p>Función Main, utilizada para iniciar el código, abrir la ventana inicial del juego, dibujar texturas, actualizar y llevar la comunicación de ventanas, actualización de sprites, etc. </p><dl class="section return"><dt>Devuelve</dt><dd></dd></dl>
+<p>Unload de todos los sprites, musica, arreglos para los xml, etc.</p>
+
+</div>
+</div>
+<a id="a3aea9deb2a0bfea9ff05a898f4822e31" name="a3aea9deb2a0bfea9ff05a898f4822e31"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a3aea9deb2a0bfea9ff05a898f4822e31">&#9670;&#160;</a></span>reset()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void reset </td>
+          <td>(</td>
+          <td class="paramtype">void&#160;</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p>FUnción utilizada para resetear las variables globales. Utilizada cuando termina el juego. Ya sea cuando el jugador gane o pierda </p>
+
+</div>
+</div>
+<a id="a480593bbd15fcdfac229605750312037" name="a480593bbd15fcdfac229605750312037"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a480593bbd15fcdfac229605750312037">&#9670;&#160;</a></span>revisar()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void revisar </td>
+          <td>(</td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>numero</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">int *&#160;</td>
+          <td class="paramname"><em>lista</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p>Función utilizada para guardar en memoria las estrategias actuales. Y actualizarla de ser necesario </p><dl class="params"><dt>Parámetros</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">numero</td><td></td></tr>
+    <tr><td class="paramname">lista</td><td></td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
+<h2 class="groupheader">Documentación de las variables</h2>
+<a id="a6cb58f5005bc0dc29bc81a398d7b3ef6" name="a6cb58f5005bc0dc29bc81a398d7b3ef6"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a6cb58f5005bc0dc29bc81a398d7b3ef6">&#9670;&#160;</a></span>io</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">boost::asio::io_service io</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a4acb6795fb66f37b3c90b24474973581" name="a4acb6795fb66f37b3c90b24474973581"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a4acb6795fb66f37b3c90b24474973581">&#9670;&#160;</a></span>port</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">boost::asio::serial_port port = boost::asio::serial_port(<a class="el" href="main_8cpp.html#a6cb58f5005bc0dc29bc81a398d7b3ef6">io</a>, &quot;/dev/ttyACM0&quot;)</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+</div><!-- contents -->
+<!-- start footer part -->
+<hr class="footer"/><address class="footer"><small>
+Generado por&#160;<a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.6
+</small></address>
+</body>
+</html>

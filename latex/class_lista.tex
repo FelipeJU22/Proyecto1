@@ -1,0 +1,164 @@
+\hypertarget{class_lista}{}\doxysection{Referencia de la Clase Lista}
+\label{class_lista}\index{Lista@{Lista}}
+\doxysubsection*{Métodos públicos}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{class_lista_a1f668b36909182ef1360b48503529a31}{Lista}} ()
+\item 
+void \mbox{\hyperlink{class_lista_a8c539e732f715782b8fb286a0322bd43}{Insertar\+Final}} (int data)
+\item 
+void \mbox{\hyperlink{class_lista_a45b496a8059bf387766d5f6fd1a6c0ac}{Insertar\+Inicio}} (int data)
+\item 
+void \mbox{\hyperlink{class_lista_ad28d434447abc7b3da2d8e8d3a60e1ae}{Enviar\+Collector}} (int data)
+\item 
+void \mbox{\hyperlink{class_lista_ac00d3d15cfab3c5a7f10b5d510a90bba}{EliminarR}} (int data)
+\item 
+void \mbox{\hyperlink{class_lista_aa412c5eedec1da91ed93c2e444bc66cf}{EliminarE}} (int data)
+\item 
+void \mbox{\hyperlink{class_lista_ac0ab099eaced54f3eaa9eb51b300e8ff}{Mostrar\+Lista}} ()
+\item 
+void \mbox{\hyperlink{class_lista_a2d315927b3ef48fa062f838b7f1edd4c}{borrar}} ()
+\item 
+void \mbox{\hyperlink{class_lista_a3c73c974452012e51b98912830ccc33d}{Encuentra}} (int data)
+\item 
+void \mbox{\hyperlink{class_lista_acb2d3019ff22626264913cb7393f1766}{EncuentraE}} (int data)
+\end{DoxyCompactItemize}
+\doxysubsection*{Atributos públicos}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{class_nodo}{Nodo}} $\ast$ \mbox{\hyperlink{class_lista_a9bc2a03db283ed41bfba435e3670616a}{cabeza}}
+\item 
+int \mbox{\hyperlink{class_lista_a3d153fbf71ab2fdedade2c39e64c70a6}{tamaño}}
+\item 
+\mbox{\hyperlink{class_collector}{Collector}} $\ast$ \mbox{\hyperlink{class_lista_ab9249d626908ec379418cc16999a441e}{botadero}}
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{Descripción detallada}
+Clase \mbox{\hyperlink{class_lista}{Lista}} enlazada, utilizada para reservar nodos de información general 
+
+\doxysubsection{Documentación del constructor y destructor}
+\mbox{\Hypertarget{class_lista_a1f668b36909182ef1360b48503529a31}\label{class_lista_a1f668b36909182ef1360b48503529a31}} 
+\index{Lista@{Lista}!Lista@{Lista}}
+\index{Lista@{Lista}!Lista@{Lista}}
+\doxysubsubsection{\texorpdfstring{Lista()}{Lista()}}
+{\footnotesize\ttfamily Lista\+::\+Lista (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+Atributos de la lista simple enlazada 
+
+\doxysubsection{Documentación de las funciones miembro}
+\mbox{\Hypertarget{class_lista_a2d315927b3ef48fa062f838b7f1edd4c}\label{class_lista_a2d315927b3ef48fa062f838b7f1edd4c}} 
+\index{Lista@{Lista}!borrar@{borrar}}
+\index{borrar@{borrar}!Lista@{Lista}}
+\doxysubsubsection{\texorpdfstring{borrar()}{borrar()}}
+{\footnotesize\ttfamily void Lista\+::borrar (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+Función utilizada para borrar nodos generales \mbox{\Hypertarget{class_lista_aa412c5eedec1da91ed93c2e444bc66cf}\label{class_lista_aa412c5eedec1da91ed93c2e444bc66cf}} 
+\index{Lista@{Lista}!EliminarE@{EliminarE}}
+\index{EliminarE@{EliminarE}!Lista@{Lista}}
+\doxysubsubsection{\texorpdfstring{EliminarE()}{EliminarE()}}
+{\footnotesize\ttfamily void Lista\+::\+EliminarE (\begin{DoxyParamCaption}\item[{int}]{data }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+Función especifica para eliminar eliminar \mbox{\hyperlink{struct_enemigos}{Enemigos}} 
+\begin{DoxyParams}{Parámetros}
+{\em data} & \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{class_lista_ac00d3d15cfab3c5a7f10b5d510a90bba}\label{class_lista_ac00d3d15cfab3c5a7f10b5d510a90bba}} 
+\index{Lista@{Lista}!EliminarR@{EliminarR}}
+\index{EliminarR@{EliminarR}!Lista@{Lista}}
+\doxysubsubsection{\texorpdfstring{EliminarR()}{EliminarR()}}
+{\footnotesize\ttfamily void Lista\+::\+EliminarR (\begin{DoxyParamCaption}\item[{int}]{data }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+Función especifica para eliminar balas recicladas 
+\begin{DoxyParams}{Parámetros}
+{\em data} & \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{class_lista_a3c73c974452012e51b98912830ccc33d}\label{class_lista_a3c73c974452012e51b98912830ccc33d}} 
+\index{Lista@{Lista}!Encuentra@{Encuentra}}
+\index{Encuentra@{Encuentra}!Lista@{Lista}}
+\doxysubsubsection{\texorpdfstring{Encuentra()}{Encuentra()}}
+{\footnotesize\ttfamily void Lista\+::\+Encuentra (\begin{DoxyParamCaption}\item[{int}]{data }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+Función utilizada para encontrar datos especificos en un nodo 
+\begin{DoxyParams}{Parámetros}
+{\em data} & \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{class_lista_acb2d3019ff22626264913cb7393f1766}\label{class_lista_acb2d3019ff22626264913cb7393f1766}} 
+\index{Lista@{Lista}!EncuentraE@{EncuentraE}}
+\index{EncuentraE@{EncuentraE}!Lista@{Lista}}
+\doxysubsubsection{\texorpdfstring{EncuentraE()}{EncuentraE()}}
+{\footnotesize\ttfamily void Lista\+::\+EncuentraE (\begin{DoxyParamCaption}\item[{int}]{data }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+Función utilizada para encontrar enemigos 
+\begin{DoxyParams}{Parámetros}
+{\em data} & \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{class_lista_ad28d434447abc7b3da2d8e8d3a60e1ae}\label{class_lista_ad28d434447abc7b3da2d8e8d3a60e1ae}} 
+\index{Lista@{Lista}!EnviarCollector@{EnviarCollector}}
+\index{EnviarCollector@{EnviarCollector}!Lista@{Lista}}
+\doxysubsubsection{\texorpdfstring{EnviarCollector()}{EnviarCollector()}}
+{\footnotesize\ttfamily void Lista\+::\+Enviar\+Collector (\begin{DoxyParamCaption}\item[{int}]{data }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+Función para eliminar dato de la lista enlazada 
+\begin{DoxyParams}{Parámetros}
+{\em data} & \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{class_lista_a8c539e732f715782b8fb286a0322bd43}\label{class_lista_a8c539e732f715782b8fb286a0322bd43}} 
+\index{Lista@{Lista}!InsertarFinal@{InsertarFinal}}
+\index{InsertarFinal@{InsertarFinal}!Lista@{Lista}}
+\doxysubsubsection{\texorpdfstring{InsertarFinal()}{InsertarFinal()}}
+{\footnotesize\ttfamily void Lista\+::\+Insertar\+Final (\begin{DoxyParamCaption}\item[{int}]{data }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+Función para insertar al final de la lista 
+\begin{DoxyParams}{Parámetros}
+{\em data} & \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{class_lista_a45b496a8059bf387766d5f6fd1a6c0ac}\label{class_lista_a45b496a8059bf387766d5f6fd1a6c0ac}} 
+\index{Lista@{Lista}!InsertarInicio@{InsertarInicio}}
+\index{InsertarInicio@{InsertarInicio}!Lista@{Lista}}
+\doxysubsubsection{\texorpdfstring{InsertarInicio()}{InsertarInicio()}}
+{\footnotesize\ttfamily void Lista\+::\+Insertar\+Inicio (\begin{DoxyParamCaption}\item[{int}]{data }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+Función para insertar al inicio de la lista enlazada 
+\begin{DoxyParams}{Parámetros}
+{\em data} & \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{class_lista_ac0ab099eaced54f3eaa9eb51b300e8ff}\label{class_lista_ac0ab099eaced54f3eaa9eb51b300e8ff}} 
+\index{Lista@{Lista}!MostrarLista@{MostrarLista}}
+\index{MostrarLista@{MostrarLista}!Lista@{Lista}}
+\doxysubsubsection{\texorpdfstring{MostrarLista()}{MostrarLista()}}
+{\footnotesize\ttfamily void Lista\+::\+Mostrar\+Lista (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+Función para mostrar la lista enlazada actual 
+
+\doxysubsection{Documentación de los datos miembro}
+\mbox{\Hypertarget{class_lista_ab9249d626908ec379418cc16999a441e}\label{class_lista_ab9249d626908ec379418cc16999a441e}} 
+\index{Lista@{Lista}!botadero@{botadero}}
+\index{botadero@{botadero}!Lista@{Lista}}
+\doxysubsubsection{\texorpdfstring{botadero}{botadero}}
+{\footnotesize\ttfamily \mbox{\hyperlink{class_collector}{Collector}}$\ast$ Lista\+::botadero}
+
+\mbox{\Hypertarget{class_lista_a9bc2a03db283ed41bfba435e3670616a}\label{class_lista_a9bc2a03db283ed41bfba435e3670616a}} 
+\index{Lista@{Lista}!cabeza@{cabeza}}
+\index{cabeza@{cabeza}!Lista@{Lista}}
+\doxysubsubsection{\texorpdfstring{cabeza}{cabeza}}
+{\footnotesize\ttfamily \mbox{\hyperlink{class_nodo}{Nodo}}$\ast$ Lista\+::cabeza}
+
+\mbox{\Hypertarget{class_lista_a3d153fbf71ab2fdedade2c39e64c70a6}\label{class_lista_a3d153fbf71ab2fdedade2c39e64c70a6}} 
+\index{Lista@{Lista}!tamaño@{tamaño}}
+\index{tamaño@{tamaño}!Lista@{Lista}}
+\doxysubsubsection{\texorpdfstring{tamaño}{tamaño}}
+{\footnotesize\ttfamily int Lista\+::tamaño}
+
+
+
+La documentación para esta clase fue generada a partir del siguiente fichero\+:\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{main_8cpp}{main.\+cpp}}\end{DoxyCompactItemize}

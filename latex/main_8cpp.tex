@@ -1,0 +1,375 @@
+\hypertarget{main_8cpp}{}\doxysection{Referencia del Archivo main.\+cpp}
+\label{main_8cpp}\index{main.cpp@{main.cpp}}
+{\ttfamily \#include $<$iostream$>$}\newline
+{\ttfamily \#include $<$raylib.\+h$>$}\newline
+{\ttfamily \#include $<$math.\+h$>$}\newline
+{\ttfamily \#include \char`\"{}pugixml-\/1.\+13/src/pugixml.\+cpp\char`\"{}}\newline
+{\ttfamily \#include $<$boost/asio.\+hpp$>$}\newline
+{\ttfamily \#include $<$chrono$>$}\newline
+{\ttfamily \#include $<$thread$>$}\newline
+{\ttfamily \#include $<$cstdlib$>$}\newline
+\doxysubsection*{Clases}
+\begin{DoxyCompactItemize}
+\item 
+struct \mbox{\hyperlink{struct_jugador}{Jugador}}
+\item 
+struct \mbox{\hyperlink{struct_enemigos}{Enemigos}}
+\item 
+struct \mbox{\hyperlink{struct_disparos}{Disparos}}
+\item 
+class \mbox{\hyperlink{class_nodo}{Nodo}}
+\item 
+class \mbox{\hyperlink{class_collector}{Collector}}
+\item 
+class \mbox{\hyperlink{class_lista}{Lista}}
+\end{DoxyCompactItemize}
+\doxysubsection*{defines}
+\begin{DoxyCompactItemize}
+\item 
+\#define \mbox{\hyperlink{main_8cpp_a2c6bec9293a18b2b99f24859c46af6d0}{cantidad\+\_\+max\+\_\+ene}}~50
+\item 
+\#define \mbox{\hyperlink{main_8cpp_aa12e43d26ee341ae77f7c288a2f5cf2c}{oleada1}}~4
+\item 
+\#define \mbox{\hyperlink{main_8cpp_a9338c51e1431f2459557fcd80c3d8842}{oleada2}}~6
+\item 
+\#define \mbox{\hyperlink{main_8cpp_ae4f34d0830860f45d82130244d88fe0d}{oleada3}}~10
+\item 
+\#define \mbox{\hyperlink{main_8cpp_a06e5a417b621b4ff6c8851ea8948488b}{oleada4}}~13
+\item 
+\#define \mbox{\hyperlink{main_8cpp_a7b899983a0086801c896ef1b223a6cfc}{oleada5}}~17
+\item 
+\#define \mbox{\hyperlink{main_8cpp_aa3de8b1bd249666ae2bc59d43b22dc5f}{oleada6}}~5
+\item 
+\#define \mbox{\hyperlink{main_8cpp_a50b8df79982aa5d314bf6b9971f8155e}{oleada7}}~10
+\item 
+\#define \mbox{\hyperlink{main_8cpp_a22c7372510d8b42dd5aab3ba846acf05}{oleada8}}~15
+\item 
+\#define \mbox{\hyperlink{main_8cpp_abaadd0a161e4d7e1f58e087cf010c8a5}{oleada9}}~20
+\item 
+\#define \mbox{\hyperlink{main_8cpp_a34174a594dec410001117153a3a74d94}{oleada10}}~25
+\item 
+\#define \mbox{\hyperlink{main_8cpp_a559890f73b8c30e4a135dcc2379765c3}{enemigos\+Maximos}}~125
+\end{DoxyCompactItemize}
+\doxysubsection*{typedefs}
+\begin{DoxyCompactItemize}
+\item 
+typedef enum \mbox{\hyperlink{main_8cpp_a74fa4be11c0eaf0601894bed6ed01402}{Game\+Screen}} \mbox{\hyperlink{main_8cpp_a4784cee37448bfc0976f6966ca192df3}{Game\+Screen}}
+\item 
+typedef struct \mbox{\hyperlink{struct_jugador}{Jugador}} \mbox{\hyperlink{main_8cpp_abbac1e97103509836ee6110874e2f39f}{Jugador}}
+\item 
+typedef struct \mbox{\hyperlink{struct_enemigos}{Enemigos}} \mbox{\hyperlink{main_8cpp_a34ae8cd5932c97d303ea369e8e1a65f2}{Enemigos}}
+\item 
+typedef struct \mbox{\hyperlink{struct_disparos}{Disparos}} \mbox{\hyperlink{main_8cpp_a57e430be993f31e947d411ad92715f49}{Disparos}}
+\end{DoxyCompactItemize}
+\doxysubsection*{Enumeraciones}
+\begin{DoxyCompactItemize}
+\item 
+enum \mbox{\hyperlink{main_8cpp_a74fa4be11c0eaf0601894bed6ed01402}{Game\+Screen}} \{ \newline
+\mbox{\hyperlink{main_8cpp_a74fa4be11c0eaf0601894bed6ed01402af6e4a90a4a7e46c98a5a12b965fb8354}{INICIO}}
+, \mbox{\hyperlink{main_8cpp_a74fa4be11c0eaf0601894bed6ed01402ad101dadcffadf4a8b93074ae0c181a67}{ESTRATEGIAS}}
+, \mbox{\hyperlink{main_8cpp_a74fa4be11c0eaf0601894bed6ed01402a651a3f73e693ca8b6f97bf6cfdc8d5be}{GAMEPLAY}}
+, \mbox{\hyperlink{main_8cpp_a74fa4be11c0eaf0601894bed6ed01402a9d5a774c8474e7e844dca02b78ce8bfe}{GANAR}}
+, \newline
+\mbox{\hyperlink{main_8cpp_a74fa4be11c0eaf0601894bed6ed01402a65a49d3fe757975af5f0ab9b3d1f23a9}{PERDER}}
+ \}
+\item 
+enum \mbox{\hyperlink{main_8cpp_a5dfad99d10ef0e8d6981e717b89c1a2a}{Enemy\+Wave}} \{ \newline
+\mbox{\hyperlink{main_8cpp_a5dfad99d10ef0e8d6981e717b89c1a2aa6a7856cca1833641e731676636b193f1}{FIRST}} = 0
+, \mbox{\hyperlink{main_8cpp_a5dfad99d10ef0e8d6981e717b89c1a2aa7cb36ff0a80f238d5b987d9250d369e3}{SECOND}}
+, \mbox{\hyperlink{main_8cpp_a5dfad99d10ef0e8d6981e717b89c1a2aac88bc782686ee422ba7a5cb3bb3bf320}{THIRD}}
+, \mbox{\hyperlink{main_8cpp_a5dfad99d10ef0e8d6981e717b89c1a2aa519a1e3fe5842163710362d4d04e1689}{FOURTH}}
+, \newline
+\mbox{\hyperlink{main_8cpp_a5dfad99d10ef0e8d6981e717b89c1a2aadea035b9dc543921645551849e9921ea}{FIFTH}}
+, \mbox{\hyperlink{main_8cpp_a5dfad99d10ef0e8d6981e717b89c1a2aa50fdfc53be233377f97522fc2758e6b9}{SIXTH}}
+, \mbox{\hyperlink{main_8cpp_a5dfad99d10ef0e8d6981e717b89c1a2aafaba28e0a9645123c5c5b98ba4aa4587}{SEVENTH}}
+, \mbox{\hyperlink{main_8cpp_a5dfad99d10ef0e8d6981e717b89c1a2aa32c5aa9e614186c7800cf420150bb8d5}{EIGHTH}}
+, \newline
+\mbox{\hyperlink{main_8cpp_a5dfad99d10ef0e8d6981e717b89c1a2aa29dba9e67e9637288998abc5552e605a}{NINETH}}
+, \mbox{\hyperlink{main_8cpp_a5dfad99d10ef0e8d6981e717b89c1a2aad76bb2c83ab028100929f23311dcbbe0}{TENTH}}
+ \}
+\end{DoxyCompactItemize}
+\doxysubsection*{Funciones}
+\begin{DoxyCompactItemize}
+\item 
+void \mbox{\hyperlink{main_8cpp_a0af933e8e671f9254c526356617eed69}{arduino}} (void)
+\item 
+void \mbox{\hyperlink{main_8cpp_a5def98da532a652cd3a00f0d930fc7a7}{enviar\+\_\+mensaje\+\_\+arduino}} (int dato)
+\item 
+void \mbox{\hyperlink{main_8cpp_a3aea9deb2a0bfea9ff05a898f4822e31}{reset}} (void)
+\item 
+void \mbox{\hyperlink{main_8cpp_a480593bbd15fcdfac229605750312037}{revisar}} (int numero, int $\ast$lista)
+\item 
+void \mbox{\hyperlink{main_8cpp_a46e7712e7f90029f9fb3c3c301891bbd}{juego}} (void)
+\item 
+void \mbox{\hyperlink{main_8cpp_a7513159a69d7e1bab9084433dcad353d}{act\+Juego}} (void)
+\item 
+void \mbox{\hyperlink{main_8cpp_acf9c5401e950ce75943dfe8a7e3f1e54}{actualizar}} (void)
+\item 
+int \mbox{\hyperlink{main_8cpp_ae66f6b31b5ad750f1fe042a706a4e3d4}{main}} ()
+\end{DoxyCompactItemize}
+\doxysubsection*{Variables}
+\begin{DoxyCompactItemize}
+\item 
+boost\+::asio\+::io\+\_\+service \mbox{\hyperlink{main_8cpp_a6cb58f5005bc0dc29bc81a398d7b3ef6}{io}}
+\item 
+boost\+::asio\+::serial\+\_\+port \mbox{\hyperlink{main_8cpp_a4acb6795fb66f37b3c90b24474973581}{port}} = boost\+::asio\+::serial\+\_\+port(\mbox{\hyperlink{main_8cpp_a6cb58f5005bc0dc29bc81a398d7b3ef6}{io}}, \char`\"{}/dev/tty\+ACM0\char`\"{})
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{Documentación de los \textquotesingle{}defines\textquotesingle{}}
+\mbox{\Hypertarget{main_8cpp_a2c6bec9293a18b2b99f24859c46af6d0}\label{main_8cpp_a2c6bec9293a18b2b99f24859c46af6d0}} 
+\index{main.cpp@{main.cpp}!cantidad\_max\_ene@{cantidad\_max\_ene}}
+\index{cantidad\_max\_ene@{cantidad\_max\_ene}!main.cpp@{main.cpp}}
+\doxysubsubsection{\texorpdfstring{cantidad\_max\_ene}{cantidad\_max\_ene}}
+{\footnotesize\ttfamily \#define cantidad\+\_\+max\+\_\+ene~50}
+
+Librerias externas utilizadas \mbox{\Hypertarget{main_8cpp_a559890f73b8c30e4a135dcc2379765c3}\label{main_8cpp_a559890f73b8c30e4a135dcc2379765c3}} 
+\index{main.cpp@{main.cpp}!enemigosMaximos@{enemigosMaximos}}
+\index{enemigosMaximos@{enemigosMaximos}!main.cpp@{main.cpp}}
+\doxysubsubsection{\texorpdfstring{enemigosMaximos}{enemigosMaximos}}
+{\footnotesize\ttfamily \#define enemigos\+Maximos~125}
+
+\mbox{\Hypertarget{main_8cpp_aa12e43d26ee341ae77f7c288a2f5cf2c}\label{main_8cpp_aa12e43d26ee341ae77f7c288a2f5cf2c}} 
+\index{main.cpp@{main.cpp}!oleada1@{oleada1}}
+\index{oleada1@{oleada1}!main.cpp@{main.cpp}}
+\doxysubsubsection{\texorpdfstring{oleada1}{oleada1}}
+{\footnotesize\ttfamily \#define oleada1~4}
+
+\mbox{\Hypertarget{main_8cpp_a34174a594dec410001117153a3a74d94}\label{main_8cpp_a34174a594dec410001117153a3a74d94}} 
+\index{main.cpp@{main.cpp}!oleada10@{oleada10}}
+\index{oleada10@{oleada10}!main.cpp@{main.cpp}}
+\doxysubsubsection{\texorpdfstring{oleada10}{oleada10}}
+{\footnotesize\ttfamily \#define oleada10~25}
+
+\mbox{\Hypertarget{main_8cpp_a9338c51e1431f2459557fcd80c3d8842}\label{main_8cpp_a9338c51e1431f2459557fcd80c3d8842}} 
+\index{main.cpp@{main.cpp}!oleada2@{oleada2}}
+\index{oleada2@{oleada2}!main.cpp@{main.cpp}}
+\doxysubsubsection{\texorpdfstring{oleada2}{oleada2}}
+{\footnotesize\ttfamily \#define oleada2~6}
+
+\mbox{\Hypertarget{main_8cpp_ae4f34d0830860f45d82130244d88fe0d}\label{main_8cpp_ae4f34d0830860f45d82130244d88fe0d}} 
+\index{main.cpp@{main.cpp}!oleada3@{oleada3}}
+\index{oleada3@{oleada3}!main.cpp@{main.cpp}}
+\doxysubsubsection{\texorpdfstring{oleada3}{oleada3}}
+{\footnotesize\ttfamily \#define oleada3~10}
+
+\mbox{\Hypertarget{main_8cpp_a06e5a417b621b4ff6c8851ea8948488b}\label{main_8cpp_a06e5a417b621b4ff6c8851ea8948488b}} 
+\index{main.cpp@{main.cpp}!oleada4@{oleada4}}
+\index{oleada4@{oleada4}!main.cpp@{main.cpp}}
+\doxysubsubsection{\texorpdfstring{oleada4}{oleada4}}
+{\footnotesize\ttfamily \#define oleada4~13}
+
+\mbox{\Hypertarget{main_8cpp_a7b899983a0086801c896ef1b223a6cfc}\label{main_8cpp_a7b899983a0086801c896ef1b223a6cfc}} 
+\index{main.cpp@{main.cpp}!oleada5@{oleada5}}
+\index{oleada5@{oleada5}!main.cpp@{main.cpp}}
+\doxysubsubsection{\texorpdfstring{oleada5}{oleada5}}
+{\footnotesize\ttfamily \#define oleada5~17}
+
+\mbox{\Hypertarget{main_8cpp_aa3de8b1bd249666ae2bc59d43b22dc5f}\label{main_8cpp_aa3de8b1bd249666ae2bc59d43b22dc5f}} 
+\index{main.cpp@{main.cpp}!oleada6@{oleada6}}
+\index{oleada6@{oleada6}!main.cpp@{main.cpp}}
+\doxysubsubsection{\texorpdfstring{oleada6}{oleada6}}
+{\footnotesize\ttfamily \#define oleada6~5}
+
+\mbox{\Hypertarget{main_8cpp_a50b8df79982aa5d314bf6b9971f8155e}\label{main_8cpp_a50b8df79982aa5d314bf6b9971f8155e}} 
+\index{main.cpp@{main.cpp}!oleada7@{oleada7}}
+\index{oleada7@{oleada7}!main.cpp@{main.cpp}}
+\doxysubsubsection{\texorpdfstring{oleada7}{oleada7}}
+{\footnotesize\ttfamily \#define oleada7~10}
+
+\mbox{\Hypertarget{main_8cpp_a22c7372510d8b42dd5aab3ba846acf05}\label{main_8cpp_a22c7372510d8b42dd5aab3ba846acf05}} 
+\index{main.cpp@{main.cpp}!oleada8@{oleada8}}
+\index{oleada8@{oleada8}!main.cpp@{main.cpp}}
+\doxysubsubsection{\texorpdfstring{oleada8}{oleada8}}
+{\footnotesize\ttfamily \#define oleada8~15}
+
+\mbox{\Hypertarget{main_8cpp_abaadd0a161e4d7e1f58e087cf010c8a5}\label{main_8cpp_abaadd0a161e4d7e1f58e087cf010c8a5}} 
+\index{main.cpp@{main.cpp}!oleada9@{oleada9}}
+\index{oleada9@{oleada9}!main.cpp@{main.cpp}}
+\doxysubsubsection{\texorpdfstring{oleada9}{oleada9}}
+{\footnotesize\ttfamily \#define oleada9~20}
+
+
+
+\doxysubsection{Documentación de los \textquotesingle{}typedefs\textquotesingle{}}
+\mbox{\Hypertarget{main_8cpp_a57e430be993f31e947d411ad92715f49}\label{main_8cpp_a57e430be993f31e947d411ad92715f49}} 
+\index{main.cpp@{main.cpp}!Disparos@{Disparos}}
+\index{Disparos@{Disparos}!main.cpp@{main.cpp}}
+\doxysubsubsection{\texorpdfstring{Disparos}{Disparos}}
+{\footnotesize\ttfamily typedef struct \mbox{\hyperlink{struct_disparos}{Disparos}} \mbox{\hyperlink{struct_disparos}{Disparos}}}
+
+Estructura utilizada para los proyectiles aliados \mbox{\Hypertarget{main_8cpp_a34ae8cd5932c97d303ea369e8e1a65f2}\label{main_8cpp_a34ae8cd5932c97d303ea369e8e1a65f2}} 
+\index{main.cpp@{main.cpp}!Enemigos@{Enemigos}}
+\index{Enemigos@{Enemigos}!main.cpp@{main.cpp}}
+\doxysubsubsection{\texorpdfstring{Enemigos}{Enemigos}}
+{\footnotesize\ttfamily typedef struct \mbox{\hyperlink{struct_enemigos}{Enemigos}} \mbox{\hyperlink{struct_enemigos}{Enemigos}}}
+
+Estructura utilizada para los enemigos, \mbox{\Hypertarget{main_8cpp_a4784cee37448bfc0976f6966ca192df3}\label{main_8cpp_a4784cee37448bfc0976f6966ca192df3}} 
+\index{main.cpp@{main.cpp}!GameScreen@{GameScreen}}
+\index{GameScreen@{GameScreen}!main.cpp@{main.cpp}}
+\doxysubsubsection{\texorpdfstring{GameScreen}{GameScreen}}
+{\footnotesize\ttfamily typedef enum \mbox{\hyperlink{main_8cpp_a74fa4be11c0eaf0601894bed6ed01402}{Game\+Screen}} \mbox{\hyperlink{main_8cpp_a74fa4be11c0eaf0601894bed6ed01402}{Game\+Screen}}}
+
+Se setean las distintas ventanas que se van a utilizar en el juego \mbox{\Hypertarget{main_8cpp_abbac1e97103509836ee6110874e2f39f}\label{main_8cpp_abbac1e97103509836ee6110874e2f39f}} 
+\index{main.cpp@{main.cpp}!Jugador@{Jugador}}
+\index{Jugador@{Jugador}!main.cpp@{main.cpp}}
+\doxysubsubsection{\texorpdfstring{Jugador}{Jugador}}
+{\footnotesize\ttfamily typedef struct \mbox{\hyperlink{struct_jugador}{Jugador}} \mbox{\hyperlink{struct_jugador}{Jugador}}}
+
+Estructura utilizada para el jugador, se le da velocidad 
+
+\doxysubsection{Documentación de las enumeraciones}
+\mbox{\Hypertarget{main_8cpp_a5dfad99d10ef0e8d6981e717b89c1a2a}\label{main_8cpp_a5dfad99d10ef0e8d6981e717b89c1a2a}} 
+\index{main.cpp@{main.cpp}!EnemyWave@{EnemyWave}}
+\index{EnemyWave@{EnemyWave}!main.cpp@{main.cpp}}
+\doxysubsubsection{\texorpdfstring{EnemyWave}{EnemyWave}}
+{\footnotesize\ttfamily enum \mbox{\hyperlink{main_8cpp_a5dfad99d10ef0e8d6981e717b89c1a2a}{Enemy\+Wave}}}
+
+\begin{DoxyEnumFields}{Valores de enumeraciones}
+\raisebox{\heightof{T}}[0pt][0pt]{\index{FIRST@{FIRST}!main.cpp@{main.cpp}}\index{main.cpp@{main.cpp}!FIRST@{FIRST}}}\mbox{\Hypertarget{main_8cpp_a5dfad99d10ef0e8d6981e717b89c1a2aa6a7856cca1833641e731676636b193f1}\label{main_8cpp_a5dfad99d10ef0e8d6981e717b89c1a2aa6a7856cca1833641e731676636b193f1}} 
+FIRST&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{SECOND@{SECOND}!main.cpp@{main.cpp}}\index{main.cpp@{main.cpp}!SECOND@{SECOND}}}\mbox{\Hypertarget{main_8cpp_a5dfad99d10ef0e8d6981e717b89c1a2aa7cb36ff0a80f238d5b987d9250d369e3}\label{main_8cpp_a5dfad99d10ef0e8d6981e717b89c1a2aa7cb36ff0a80f238d5b987d9250d369e3}} 
+SECOND&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{THIRD@{THIRD}!main.cpp@{main.cpp}}\index{main.cpp@{main.cpp}!THIRD@{THIRD}}}\mbox{\Hypertarget{main_8cpp_a5dfad99d10ef0e8d6981e717b89c1a2aac88bc782686ee422ba7a5cb3bb3bf320}\label{main_8cpp_a5dfad99d10ef0e8d6981e717b89c1a2aac88bc782686ee422ba7a5cb3bb3bf320}} 
+THIRD&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{FOURTH@{FOURTH}!main.cpp@{main.cpp}}\index{main.cpp@{main.cpp}!FOURTH@{FOURTH}}}\mbox{\Hypertarget{main_8cpp_a5dfad99d10ef0e8d6981e717b89c1a2aa519a1e3fe5842163710362d4d04e1689}\label{main_8cpp_a5dfad99d10ef0e8d6981e717b89c1a2aa519a1e3fe5842163710362d4d04e1689}} 
+FOURTH&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{FIFTH@{FIFTH}!main.cpp@{main.cpp}}\index{main.cpp@{main.cpp}!FIFTH@{FIFTH}}}\mbox{\Hypertarget{main_8cpp_a5dfad99d10ef0e8d6981e717b89c1a2aadea035b9dc543921645551849e9921ea}\label{main_8cpp_a5dfad99d10ef0e8d6981e717b89c1a2aadea035b9dc543921645551849e9921ea}} 
+FIFTH&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{SIXTH@{SIXTH}!main.cpp@{main.cpp}}\index{main.cpp@{main.cpp}!SIXTH@{SIXTH}}}\mbox{\Hypertarget{main_8cpp_a5dfad99d10ef0e8d6981e717b89c1a2aa50fdfc53be233377f97522fc2758e6b9}\label{main_8cpp_a5dfad99d10ef0e8d6981e717b89c1a2aa50fdfc53be233377f97522fc2758e6b9}} 
+SIXTH&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{SEVENTH@{SEVENTH}!main.cpp@{main.cpp}}\index{main.cpp@{main.cpp}!SEVENTH@{SEVENTH}}}\mbox{\Hypertarget{main_8cpp_a5dfad99d10ef0e8d6981e717b89c1a2aafaba28e0a9645123c5c5b98ba4aa4587}\label{main_8cpp_a5dfad99d10ef0e8d6981e717b89c1a2aafaba28e0a9645123c5c5b98ba4aa4587}} 
+SEVENTH&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{EIGHTH@{EIGHTH}!main.cpp@{main.cpp}}\index{main.cpp@{main.cpp}!EIGHTH@{EIGHTH}}}\mbox{\Hypertarget{main_8cpp_a5dfad99d10ef0e8d6981e717b89c1a2aa32c5aa9e614186c7800cf420150bb8d5}\label{main_8cpp_a5dfad99d10ef0e8d6981e717b89c1a2aa32c5aa9e614186c7800cf420150bb8d5}} 
+EIGHTH&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{NINETH@{NINETH}!main.cpp@{main.cpp}}\index{main.cpp@{main.cpp}!NINETH@{NINETH}}}\mbox{\Hypertarget{main_8cpp_a5dfad99d10ef0e8d6981e717b89c1a2aa29dba9e67e9637288998abc5552e605a}\label{main_8cpp_a5dfad99d10ef0e8d6981e717b89c1a2aa29dba9e67e9637288998abc5552e605a}} 
+NINETH&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{TENTH@{TENTH}!main.cpp@{main.cpp}}\index{main.cpp@{main.cpp}!TENTH@{TENTH}}}\mbox{\Hypertarget{main_8cpp_a5dfad99d10ef0e8d6981e717b89c1a2aad76bb2c83ab028100929f23311dcbbe0}\label{main_8cpp_a5dfad99d10ef0e8d6981e717b89c1a2aad76bb2c83ab028100929f23311dcbbe0}} 
+TENTH&\\
+\hline
+
+\end{DoxyEnumFields}
+\mbox{\Hypertarget{main_8cpp_a74fa4be11c0eaf0601894bed6ed01402}\label{main_8cpp_a74fa4be11c0eaf0601894bed6ed01402}} 
+\index{main.cpp@{main.cpp}!GameScreen@{GameScreen}}
+\index{GameScreen@{GameScreen}!main.cpp@{main.cpp}}
+\doxysubsubsection{\texorpdfstring{GameScreen}{GameScreen}}
+{\footnotesize\ttfamily enum \mbox{\hyperlink{main_8cpp_a74fa4be11c0eaf0601894bed6ed01402}{Game\+Screen}}}
+
+Se setean las distintas ventanas que se van a utilizar en el juego \begin{DoxyEnumFields}{Valores de enumeraciones}
+\raisebox{\heightof{T}}[0pt][0pt]{\index{INICIO@{INICIO}!main.cpp@{main.cpp}}\index{main.cpp@{main.cpp}!INICIO@{INICIO}}}\mbox{\Hypertarget{main_8cpp_a74fa4be11c0eaf0601894bed6ed01402af6e4a90a4a7e46c98a5a12b965fb8354}\label{main_8cpp_a74fa4be11c0eaf0601894bed6ed01402af6e4a90a4a7e46c98a5a12b965fb8354}} 
+INICIO&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{ESTRATEGIAS@{ESTRATEGIAS}!main.cpp@{main.cpp}}\index{main.cpp@{main.cpp}!ESTRATEGIAS@{ESTRATEGIAS}}}\mbox{\Hypertarget{main_8cpp_a74fa4be11c0eaf0601894bed6ed01402ad101dadcffadf4a8b93074ae0c181a67}\label{main_8cpp_a74fa4be11c0eaf0601894bed6ed01402ad101dadcffadf4a8b93074ae0c181a67}} 
+ESTRATEGIAS&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{GAMEPLAY@{GAMEPLAY}!main.cpp@{main.cpp}}\index{main.cpp@{main.cpp}!GAMEPLAY@{GAMEPLAY}}}\mbox{\Hypertarget{main_8cpp_a74fa4be11c0eaf0601894bed6ed01402a651a3f73e693ca8b6f97bf6cfdc8d5be}\label{main_8cpp_a74fa4be11c0eaf0601894bed6ed01402a651a3f73e693ca8b6f97bf6cfdc8d5be}} 
+GAMEPLAY&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{GANAR@{GANAR}!main.cpp@{main.cpp}}\index{main.cpp@{main.cpp}!GANAR@{GANAR}}}\mbox{\Hypertarget{main_8cpp_a74fa4be11c0eaf0601894bed6ed01402a9d5a774c8474e7e844dca02b78ce8bfe}\label{main_8cpp_a74fa4be11c0eaf0601894bed6ed01402a9d5a774c8474e7e844dca02b78ce8bfe}} 
+GANAR&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{PERDER@{PERDER}!main.cpp@{main.cpp}}\index{main.cpp@{main.cpp}!PERDER@{PERDER}}}\mbox{\Hypertarget{main_8cpp_a74fa4be11c0eaf0601894bed6ed01402a65a49d3fe757975af5f0ab9b3d1f23a9}\label{main_8cpp_a74fa4be11c0eaf0601894bed6ed01402a65a49d3fe757975af5f0ab9b3d1f23a9}} 
+PERDER&\\
+\hline
+
+\end{DoxyEnumFields}
+
+
+\doxysubsection{Documentación de las funciones}
+\mbox{\Hypertarget{main_8cpp_a7513159a69d7e1bab9084433dcad353d}\label{main_8cpp_a7513159a69d7e1bab9084433dcad353d}} 
+\index{main.cpp@{main.cpp}!actJuego@{actJuego}}
+\index{actJuego@{actJuego}!main.cpp@{main.cpp}}
+\doxysubsubsection{\texorpdfstring{actJuego()}{actJuego()}}
+{\footnotesize\ttfamily void act\+Juego (\begin{DoxyParamCaption}\item[{void}]{ }\end{DoxyParamCaption})}
+
+Función la cual le da al jugador los límites de la pantalla, su cambio de sprites, la posibilidad de disparar a cierta cadencia, además de configurarla dependiendo de las teclas que presiona el jugador y tener cierta munición. Código oleadas
+
+Termina oleadas\mbox{\Hypertarget{main_8cpp_acf9c5401e950ce75943dfe8a7e3f1e54}\label{main_8cpp_acf9c5401e950ce75943dfe8a7e3f1e54}} 
+\index{main.cpp@{main.cpp}!actualizar@{actualizar}}
+\index{actualizar@{actualizar}!main.cpp@{main.cpp}}
+\doxysubsubsection{\texorpdfstring{actualizar()}{actualizar()}}
+{\footnotesize\ttfamily void actualizar (\begin{DoxyParamCaption}\item[{void}]{ }\end{DoxyParamCaption})}
+
+Función llamada cada frame, para revisar el funcionamiento del jugador \mbox{\Hypertarget{main_8cpp_a0af933e8e671f9254c526356617eed69}\label{main_8cpp_a0af933e8e671f9254c526356617eed69}} 
+\index{main.cpp@{main.cpp}!arduino@{arduino}}
+\index{arduino@{arduino}!main.cpp@{main.cpp}}
+\doxysubsubsection{\texorpdfstring{arduino()}{arduino()}}
+{\footnotesize\ttfamily void arduino (\begin{DoxyParamCaption}\item[{void}]{ }\end{DoxyParamCaption})}
+
+Función utilizada para la comunicación entre c++ y arduino. Recibe los mensajes y los traduce en acciones dentro del juego \mbox{\Hypertarget{main_8cpp_a5def98da532a652cd3a00f0d930fc7a7}\label{main_8cpp_a5def98da532a652cd3a00f0d930fc7a7}} 
+\index{main.cpp@{main.cpp}!enviar\_mensaje\_arduino@{enviar\_mensaje\_arduino}}
+\index{enviar\_mensaje\_arduino@{enviar\_mensaje\_arduino}!main.cpp@{main.cpp}}
+\doxysubsubsection{\texorpdfstring{enviar\_mensaje\_arduino()}{enviar\_mensaje\_arduino()}}
+{\footnotesize\ttfamily void enviar\+\_\+mensaje\+\_\+arduino (\begin{DoxyParamCaption}\item[{int}]{dato }\end{DoxyParamCaption})}
+
+Función utilizada para la comunicación entre c++ y arduino. Envia mensajes al arduino \mbox{\Hypertarget{main_8cpp_a46e7712e7f90029f9fb3c3c301891bbd}\label{main_8cpp_a46e7712e7f90029f9fb3c3c301891bbd}} 
+\index{main.cpp@{main.cpp}!juego@{juego}}
+\index{juego@{juego}!main.cpp@{main.cpp}}
+\doxysubsubsection{\texorpdfstring{juego()}{juego()}}
+{\footnotesize\ttfamily void juego (\begin{DoxyParamCaption}\item[{void}]{ }\end{DoxyParamCaption})}
+
+FUnción utilizada para activar enemigos, al jugador, los disparos, setear las diferencias entre dificultades, generar enemigos, etc. \mbox{\Hypertarget{main_8cpp_ae66f6b31b5ad750f1fe042a706a4e3d4}\label{main_8cpp_ae66f6b31b5ad750f1fe042a706a4e3d4}} 
+\index{main.cpp@{main.cpp}!main@{main}}
+\index{main@{main}!main.cpp@{main.cpp}}
+\doxysubsubsection{\texorpdfstring{main()}{main()}}
+{\footnotesize\ttfamily int main (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+Función Main, utilizada para iniciar el código, abrir la ventana inicial del juego, dibujar texturas, actualizar y llevar la comunicación de ventanas, actualización de sprites, etc. \begin{DoxyReturn}{Devuelve}
+
+\end{DoxyReturn}
+Unload de todos los sprites, musica, arreglos para los xml, etc.\mbox{\Hypertarget{main_8cpp_a3aea9deb2a0bfea9ff05a898f4822e31}\label{main_8cpp_a3aea9deb2a0bfea9ff05a898f4822e31}} 
+\index{main.cpp@{main.cpp}!reset@{reset}}
+\index{reset@{reset}!main.cpp@{main.cpp}}
+\doxysubsubsection{\texorpdfstring{reset()}{reset()}}
+{\footnotesize\ttfamily void reset (\begin{DoxyParamCaption}\item[{void}]{ }\end{DoxyParamCaption})}
+
+FUnción utilizada para resetear las variables globales. Utilizada cuando termina el juego. Ya sea cuando el jugador gane o pierda \mbox{\Hypertarget{main_8cpp_a480593bbd15fcdfac229605750312037}\label{main_8cpp_a480593bbd15fcdfac229605750312037}} 
+\index{main.cpp@{main.cpp}!revisar@{revisar}}
+\index{revisar@{revisar}!main.cpp@{main.cpp}}
+\doxysubsubsection{\texorpdfstring{revisar()}{revisar()}}
+{\footnotesize\ttfamily void revisar (\begin{DoxyParamCaption}\item[{int}]{numero,  }\item[{int $\ast$}]{lista }\end{DoxyParamCaption})}
+
+Función utilizada para guardar en memoria las estrategias actuales. Y actualizarla de ser necesario 
+\begin{DoxyParams}{Parámetros}
+{\em numero} & \\
+\hline
+{\em lista} & \\
+\hline
+\end{DoxyParams}
+
+
+\doxysubsection{Documentación de las variables}
+\mbox{\Hypertarget{main_8cpp_a6cb58f5005bc0dc29bc81a398d7b3ef6}\label{main_8cpp_a6cb58f5005bc0dc29bc81a398d7b3ef6}} 
+\index{main.cpp@{main.cpp}!io@{io}}
+\index{io@{io}!main.cpp@{main.cpp}}
+\doxysubsubsection{\texorpdfstring{io}{io}}
+{\footnotesize\ttfamily boost\+::asio\+::io\+\_\+service io}
+
+\mbox{\Hypertarget{main_8cpp_a4acb6795fb66f37b3c90b24474973581}\label{main_8cpp_a4acb6795fb66f37b3c90b24474973581}} 
+\index{main.cpp@{main.cpp}!port@{port}}
+\index{port@{port}!main.cpp@{main.cpp}}
+\doxysubsubsection{\texorpdfstring{port}{port}}
+{\footnotesize\ttfamily boost\+::asio\+::serial\+\_\+port port = boost\+::asio\+::serial\+\_\+port(\mbox{\hyperlink{main_8cpp_a6cb58f5005bc0dc29bc81a398d7b3ef6}{io}}, \char`\"{}/dev/tty\+ACM0\char`\"{})}
+
