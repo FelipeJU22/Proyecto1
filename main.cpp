@@ -657,7 +657,7 @@ void revisar(int numero, int* lista) {
     if (!encontrado) {
         lista[1] = lista[0];
         lista[0] = numero;
-        this_thread::sleep_for(chrono::seconds(5));
+        //this_thread::sleep_for(chrono::seconds(5));
     }
 }
 
