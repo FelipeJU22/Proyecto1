@@ -180,10 +180,17 @@ public:
     void setSiguiente(Nodo* x);
     friend class Collector;
 };
-
+/**
+ * setear del dato entero
+ * @param x
+ */
 void Nodo::setDato(int x){
     dato = x;
 }
+/**
+ * Setear el valor del nodo al siguiente nodo
+ * @param x
+ */
 void Nodo::setSiguiente(Nodo* x){
     siguiente = x;
 }
@@ -228,6 +235,10 @@ public:
         }
 
     }
+    /**
+     * Insertar al inicio de collector en la lista enlazada
+     * @param puntero
+     */
     void InsertarInicioC(Nodo *puntero) {
         if (head == nullptr) {
             head = puntero;
@@ -403,6 +414,10 @@ public:
         } else{
         }
     }
+    /**
+     * Función especifica para eliminar balas recicladas
+     * @param data
+     */
     void EliminarR(int data) {
         Encuentra(data);
         if(respuesta == "si") {
@@ -424,6 +439,10 @@ public:
         } else{
         }
     }
+    /**
+     * Función especifica para eliminar eliminar Enemigos
+     * @param data
+     */
     void EliminarE(int data) {
         EncuentraE(data);
         if(respuestaE == "si") {
@@ -465,13 +484,19 @@ public:
             cout << endl;
         }
     }
+    /**
+     * Función utilizada para borrar nodos generales
+     */
     void borrar(){
         while (cabeza->siguiente != nullptr) {
             cabeza = cabeza->siguiente;
         }
         cabeza = nullptr;
     }
-
+    /**
+     * Función utilizada para encontrar datos especificos en un nodo
+     * @param data
+     */
     void Encuentra(int data){
         Nodo *temp;
         if (cabeza == nullptr) {
@@ -498,6 +523,10 @@ public:
             }
         }
     }
+    /**
+     * Función utilizada para encontrar enemigos
+     * @param data
+     */
     void EncuentraE(int data){
         Nodo *temp;
         if (cabeza == nullptr) {
@@ -531,10 +560,11 @@ static Lista *l = new Lista();
 static Lista *R = new Lista();
 static Lista *E = new Lista();
 static Lista *A = new Lista();
-/**
- *
- */
 
+/**
+ * Función utilizada para la comunicación entre c++ y arduino.
+ * Recibe los mensajes y los traduce en acciones dentro del juego
+ */
 void arduino(void){
     boost::asio::streambuf buffer;
     boost::asio::read_until(port, buffer, "\n");
@@ -579,14 +609,20 @@ void arduino(void){
         }
     }
 }
-
+/**
+* Función utilizada para la comunicación entre c++ y arduino.
+* Envia mensajes al arduino
+*/
 void enviar_mensaje_arduino(int dato){
     boost::asio::write(port, boost::asio::buffer(&dato, sizeof(dato)));
     //cout<<"Dato: "<<dato<<endl;
 }
 
 
-
+/**
+ * FUnción utilizada para resetear las variables globales. Utilizada cuando termina el juego. Ya sea cuando el jugador
+ * gane o pierda
+ */
 void reset(void){
     cadencia = 0;
     rate = 1;
@@ -645,6 +681,11 @@ void reset(void){
 //    A->borrar();
 }
 
+/**
+ * Función utilizada para guardar en memoria las estrategias actuales. Y actualizarla de ser necesario
+ * @param numero
+ * @param lista
+ */
 void revisar(int numero, int* lista) {
     bool encontrado = false;
     for (int i = 0; i < 2; i++) {
@@ -660,7 +701,10 @@ void revisar(int numero, int* lista) {
         //this_thread::sleep_for(chrono::seconds(5));
     }
 }
-
+/**
+ * FUnción utilizada para activar enemigos, al jugador, los disparos, setear las diferencias entre dificultades, generar
+ * enemigos, etc.
+ */
 void juego(void){
 //    arduino();
     enemigosActivos = oleada1;
@@ -1269,7 +1313,6 @@ void actJuego(void){
  * Función llamada cada frame, para revisar el funcionamiento del jugador
  */
 
-
 void actualizar(void){
     actJuego();
 }
@@ -1656,7 +1699,9 @@ int main() {
         //----------------------------------------------------------------------------------
     }
 
-
+    /**
+     * Unload de todos los sprites, musica, arreglos para los xml, etc.
+     */
     // De-Initialization
     //--------------------------------------------------------------------------------------
     UnloadTexture(icoVidas);
